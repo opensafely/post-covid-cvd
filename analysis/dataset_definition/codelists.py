@@ -1,8 +1,8 @@
-# SETUP
+# Setup ------------------------------------------------------------------------
 
 from ehrql import codelist_from_csv
 
-# EXPOSURE(S)
+# Exposures --------------------------------------------------------------------
 
 ## COVID-19
 covid_codes = codelist_from_csv(
@@ -22,7 +22,37 @@ covid_primary_care_sequalae = codelist_from_csv(
     column="CTV3ID"
 )
 
-# OUTCOMES
+# Quality assurance ------------------------------------------------------------
+
+## Prostate cancer
+prostate_cancer_snomed = codelist_from_csv(
+    "codelists/user-RochelleKnight-prostate_cancer_snomed.csv",
+    column="code"
+)
+prostate_cancer_icd10 = codelist_from_csv(
+    "codelists/user-RochelleKnight-prostate_cancer_icd10.csv",
+    column="code"
+)
+
+## Pregnancy
+pregnancy_snomed = codelist_from_csv(
+    "codelists/user-RochelleKnight-pregnancy_and_birth_snomed.csv",
+    column="code"
+)
+
+## Combined oral contraceptive pill
+cocp_dmd = codelist_from_csv(
+    "codelists/user-elsie_horne-cocp_dmd.csv",
+    column="dmd_id"
+)
+
+## Hormone replacement therapy
+hrt_dmd = codelist_from_csv(
+    "codelists/user-elsie_horne-hrt_dmd.csv",
+    column="dmd_id"
+)
+
+# Outcomes ---------------------------------------------------------------------
 
 ## Acute myocardial infarction
 ami_snomed = codelist_from_csv(
@@ -104,12 +134,12 @@ other_dvt_icd10 = codelist_from_csv(
 )
 
 ## Pulmonary embolism (PE)
-pe_icd10 = codelist_from_csv(
-    "codelists/user-RochelleKnight-pe_icd10.csv",    
-    column="code",
-)
 pe_snomed = codelist_from_csv(
     "codelists/user-elsie_horne-pe_snomed.csv",    
+    column="code",
+)
+pe_icd10 = codelist_from_csv(
+    "codelists/user-RochelleKnight-pe_icd10.csv",    
     column="code",
 )
 
@@ -167,39 +197,17 @@ stroke_sahhs_icd10 = codelist_from_csv(
     column="code",
 )
 
-# QUALITY ASSURANCE 
+# Covariates -------------------------------------------------------------------
 
-## Prostate cancer
-prostate_cancer_snomed = codelist_from_csv(
-    "codelists/user-RochelleKnight-prostate_cancer_snomed.csv",
-    column="code"
-)
-prostate_cancer_icd10 = codelist_from_csv(
-    "codelists/user-RochelleKnight-prostate_cancer_icd10.csv",
-    column="code"
-)
+## Core covariates -------------------------------------------------------------
 
-## Pregnancy
-pregnancy_snomed = codelist_from_csv(
-    "codelists/user-RochelleKnight-pregnancy_and_birth_snomed.csv",
-    column="code"
-)
+### Age 
+#### No codelist required
 
-## Combined oral contraceptive pill
-cocp_dmd = codelist_from_csv(
-    "codelists/user-elsie_horne-cocp_dmd.csv",
-    column="dmd_id"
-)
+### Sex 
+#### No codelist required
 
-## Hormone replacement therapy
-hrt_dmd = codelist_from_csv(
-    "codelists/user-elsie_horne-hrt_dmd.csv",
-    column="dmd_id"
-)
-
-# COVARIATES(S) [TO BE SORTED]
-
-## Ethnicity
+### Ethnicity  
 opensafely_ethnicity_codes_6 = codelist_from_csv(
     "codelists/opensafely-ethnicity.csv",
     column="Code",
@@ -211,7 +219,13 @@ primis_covid19_vacc_update_ethnicity = codelist_from_csv(
     category_column="grouping_6_id"
 )
 
-## Smoking
+### Deprivation 
+#### No codelist required
+
+### Region 
+#### No codelist required
+
+### Smoking status 
 smoking_clear = codelist_from_csv(
     "codelists/opensafely-smoking-clear.csv",
     column="CTV3Code",
@@ -222,291 +236,71 @@ smoking_unclear = codelist_from_csv(
     column="CTV3Code",
     category_column="Category"
 )
-ever_current_smoke = codelist_from_csv(
-    "codelists/bristol-smoke-and-eversmoke.csv",
-    column="code"
-)
 
-## BMI
-bmi_obesity_snomed = codelist_from_csv(
-    "codelists/user-elsie_horne-bmi_obesity_snomed.csv",
-    column="code"
-)
-bmi_obesity_icd10 = codelist_from_csv(
-    "codelists/user-elsie_horne-bmi_obesity_icd10.csv",
-    column="code"
-)
-bmi_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-bmi.csv",
-    column="code"
-)
+### Care home status 
+#### No codelist required
 
-## Total Cholesterol
-cholesterol_snomed = codelist_from_csv(
-    "codelists/opensafely-cholesterol-tests-numerical-value.csv",
-    column="code"
-)
+### Consultation rate 
+#### No codelist required
 
-## HDL Cholesterol
-hdl_cholesterol_snomed = codelist_from_csv(
-    "codelists/bristol-hdl-cholesterol.csv",
-    column="code"
-)
+### Health care worker 
+#### No codelist required
 
-## Carer codes
-carer_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-carer.csv",
-    column="code"
-)
-
-## No longer a carer codes
-notcarer_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-notcarer.csv",
-    column="code"
-)
-
-## Wider Learning Disability
-learndis_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-learndis.csv",
-    column="code"
-)
-
-## Employed by Care Home codes
-carehome_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-carehome.csv",
-    column="code"
-)
-
-## Employed by nursing home codes
-nursehome_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-nursehome.csv",
-    column="code"
-)
-
-## Employed by domiciliary care provider codes
-domcare_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-domcare.csv",
-    column="code"
-)
-
-## Patients in long-stay nursing and residential care
-longres_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-longres.csv",
-    column="code"
-)
-
-## High Risk from COVID-19 code
-shield_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-shield.csv",
-    column="code"
-)
-
-## Lower Risk from COVID-19 codes
-nonshield_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-nonshield.csv",
-    column="code"
-)
-
-# JCVI GROUPS [TO BE SORTED]
-# CHECK IF primis-covid19-vacc-uptake/hhld_imdef/v1 IS NEEDED
-
-## Pregnancy codes
-preg_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-preg.csv",
-    column="code"
-)
-
-## Pregnancy or Delivery codes
-pregdel_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-pregdel.csv",
-    column="code"
-)
-
-## All BMI coded terms
-bmi_stage_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-bmi_stage.csv",
-    column="code"
-)
-
-## Severe Obesity code recorded
-sev_obesity_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-sev_obesity.csv",
-    column="code"
-)
-
-## Asthma Diagnosis code
-ast_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-ast.csv",
-    column="code"
-)
-
-## Asthma Admission codes
-astadm_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-astadm.csv",
-    column="code"
-)
-
-## Asthma systemic steroid prescription codes
-astrx_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-astrx.csv",
-    column="code"
-)
-
-## Chronic Respiratory Disease
-resp_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-resp_cov.csv",
-    column="code"
-)
-
-## Chronic Neurological Disease including Significant Learning Disorder
-cns_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-cns_cov.csv",
-    column="code"
-)
-
-## Asplenia or Dysfunction of the Spleen codes
-spln_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-spln_cov.csv",
-    column="code"
-)
-
-## Diabetes diagnosis codes
-diab_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-diab.csv",
-    column="code"
-)
-
-## Diabetes resolved codes
-dmres_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-dmres.csv",
-    column="code"
-)
-
-## Severe Mental Illness codes
-sev_mental_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-sev_mental.csv",
-    column="code"
-)
-
-## Remission codes relating to Severe Mental Illness
-smhres_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-smhres.csv",
-    column="code"
-)
-
-## Chronic heart disease codes
-chd_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-chd_cov.csv",
-    column="code"
-)
-
-## Chronic kidney disease diagnostic codes
-ckd_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-ckd_cov.csv",
-    column="code"
-)
-
-## Chronic kidney disease codes - all stages
-ckd15_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-ckd15.csv",
-    column="code"
-)
-
-## Chronic kidney disease codes-stages 3 - 5
-ckd35_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-ckd35.csv",
-    column="code"
-)
-
-## Chronic Liver disease codes
-cld_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-cld.csv",
-    column="code"
-)
-
-## Immunosuppression diagnosis codes
-immdx_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-immdx_cov.csv",
-    column="code"
-)
-
-## Immunosuppression medication codes
-immrx_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-immrx.csv",
-    column="code"
-)
-
-## Stroke Ischaemic (Ischaemic Stroke)
-stroke_isch_snomed = codelist_from_csv(
-    "codelists/user-elsie_horne-stroke_isch_snomed.csv",
-    column="code"
-)
-
-stroke_isch_icd10 = codelist_from_csv(
-    "codelists/user-RochelleKnight-stroke_isch_icd10.csv",
-    column="code"
-)
-
-## Dementia (added ctv3)
-dementia_snomed = codelist_from_csv(
+### Dementia 
+dementia_nonvas_snomed = codelist_from_csv(
     "codelists/user-elsie_horne-dementia_snomed.csv",
     column="code"
 )
-
-dementia_icd10 = codelist_from_csv(
-    "codelists/user-elsie_horne-dementia_icd10.csv",
-    column="code"
-)
-
-dementia_ctv3 = codelist_from_csv(
-    "codelists/opensafely-dementia.csv",
-    column="CTV3ID"
-)
-
-dementia_vascular_snomed = codelist_from_csv(
+dementia_vas_snomed = codelist_from_csv(
     "codelists/user-elsie_horne-dementia_vascular_snomed.csv",
     column="code"
 )
-
-dementia_vascular_icd10 = codelist_from_csv(
+dementia_nonvas_icd10 = codelist_from_csv(
+    "codelists/user-elsie_horne-dementia_icd10.csv",
+    column="code"
+)
+dementia_vas_icd10 = codelist_from_csv(
     "codelists/user-elsie_horne-dementia_vascular_icd10.csv",
     column="code"
 )
+dementia_snomed = dementia_nonvas_snomed + dementia_vas_snomed
+dementia_ic10 = dementia_nonvas_icd10 + dementia_vas_icd10
 
-## Liver disease
+### Liver disease 
 liver_disease_snomed = codelist_from_csv(
     "codelists/user-elsie_horne-liver_disease_snomed.csv",
     column="code"
 )
-
 liver_disease_icd10 = codelist_from_csv(
     "codelists/user-elsie_horne-liver_disease_icd10.csv",
     column="code"
 )
 
-## Chronic Kidney disease
+### Chronic kidney disease 
 ckd_snomed = codelist_from_csv(
     "codelists/user-elsie_horne-ckd_snomed.csv",
     column="code"
 )
-
 ckd_icd10 = codelist_from_csv(
     "codelists/user-elsie_horne-ckd_icd10.csv",
     column="code"
 )
 
-## Cancer
+### Cancer 
 cancer_snomed = codelist_from_csv(
     "codelists/user-elsie_horne-cancer_snomed.csv",
     column="code"
 )
-
 cancer_icd10 = codelist_from_csv(
     "codelists/user-elsie_horne-cancer_icd10.csv",
     column="code"
 )
 
-## Hypertension (added ctv3 codes)
+### Hypertension 
+hypertension_snomed = codelist_from_csv(
+    "codelists/nhsd-primary-care-domain-refsets-hyp_cod.csv",
+    column="code"
+)
 hypertension_icd10 = codelist_from_csv(
     "codelists/user-elsie_horne-hypertension_icd10.csv",
     column="code"
@@ -515,16 +309,8 @@ hypertension_drugs_dmd = codelist_from_csv(
     "codelists/user-elsie_horne-hypertension_drugs_dmd.csv",
     column="dmd_id"
 )
-hypertension_snomed = codelist_from_csv(
-    "codelists/nhsd-primary-care-domain-refsets-hyp_cod.csv",
-    column="code"
-)
-hypertension_ctv3 = codelist_from_csv(
-    "codelists/opensafely-hypertension.csv",
-    column="CTV3ID"
-)
 
-## Diabetes
+### Diabetes 
 diabetes_icd10 = codelist_from_csv(
     "codelists/user-elsie_horne-diabetes_icd10.csv",
     column="code"
@@ -538,7 +324,58 @@ diabetes_snomed = codelist_from_csv(
     column="code"
 )   
 
-## Depression
+### Obesity 
+obesity_snomed = codelist_from_csv(
+    "codelists/user-elsie_horne-bmi_obesity_snomed.csv",
+    column="code"
+)
+obesity_icd10 = codelist_from_csv(
+    "codelists/user-elsie_horne-bmi_obesity_icd10.csv",
+    column="code"
+)
+bmi_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-bmi.csv",
+    column="code"
+)
+
+### Chronic obstructive pulmonary disease (COPD) 
+copd_ctv3_clinical = codelist_from_csv(
+    "codelists/opensafely-current-copd.csv",
+    column="CTV3ID"
+)
+copd_icd10 = codelist_from_csv(
+    "codelists/opensafely-copd-secondary-care.csv",
+    column="code"
+)
+
+### Acute myocardial infarction 
+#### ami_snomed defined earlier for this project - see 'Outcomes'
+#### ami_icd10 defined earlier for this project - see 'Outcomes'
+# ami_snomed = codelist_from_csv(
+#     "codelists/user-elsie_horne-ami_snomed.csv",
+#     column="code",
+# )
+# ami_icd10 = codelist_from_csv(
+#     "codelists/user-RochelleKnight-ami_icd10.csv",
+#     column="code",
+# )
+ami_prior_icd10 = codelist_from_csv(
+    "codelists/user-elsie_horne-ami_prior_icd10.csv",
+    column="code"
+)
+
+### Ischaemic stroke 
+#### Covariate replaced by 'all stroke' for this project - see 'Project specific covariates'
+# stroke_isch_snomed = codelist_from_csv(
+#     "codelists/user-elsie_horne-stroke_isch_snomed.csv",
+#     column="code"
+# )
+# stroke_isch_icd10 = codelist_from_csv(
+#     "codelists/user-RochelleKnight-stroke_isch_icd10.csv",
+#     column="code"
+# )
+
+### Depression
 depression_snomed = codelist_from_csv(
     "codelists/user-hjforbes-depression-symptoms-and-diagnoses.csv",
     column="code"
@@ -548,10 +385,236 @@ depression_icd10 = codelist_from_csv(
     column="code",
 )
 
-## Acute Myocardial Infarction
-### ami_snomed defined under OUTCOME(S)
-### ami_snomed defined under OUTCOME(S)
-ami_prior_icd10 = codelist_from_csv(
-    "codelists/user-elsie_horne-ami_prior_icd10.csv",
+## Project specific covariates -------------------------------------------------
+
+### All stroke 
+stroke_snomed = stroke_isch_snomed + stroke_sahhs_snomed
+stroke_icd10 = stroke_isch_icd10 + stroke_sahhs_icd10
+
+### Other arterial embolism 
+#### other_ae_snomed defined earlier for this project - see 'Outcomes'
+#### other_ae_icd10 defined earlier for this project - see 'Outcomes'
+
+### Venous thromboembolism events 
+#### vte_snomed defined earlier for this project - see 'Outcomes'
+#### vte_icd10 defined earlier for this project - see 'Outcomes'
+
+### Heart failure 
+#### hf_snomed defined earlier for this project - see 'Outcomes'
+#### hf_icd10 defined earlier for this project - see 'Outcomes'
+
+### Angina 
+#### angina_snomed defined earlier for this project - see 'Outcomes'
+#### angina_ae_icd10 defined earlier for this project - see 'Outcomes'
+
+### Lipid lowering medications 
+lipid_lowering_dmd = codelist_from_csv(
+    "codelists/user-elsie_horne-lipid_lowering_dmd.csv",
+    column="dmd_id",
+)
+
+### Antiplatelet medications 
+antiplatelet_dmd = codelist_from_csv(
+    "codelists/user-elsie_horne-antiplatelet_dmd.csv",
+    column="dmd_id",
+)
+
+### Anticoagulation medications 
+anticoagulant_dmd = codelist_from_csv(
+    "codelists/user-elsie_horne-anticoagulant_dmd.csv",
+    column="dmd_id",
+)
+
+### Combined oral contraceptive pill 
+#### cocp_dmd defined earlier for this project - see 'Quality assurance'
+
+### Hormone replacement therapy 
+#### hrt_dmd defined earlier for this project - see 'Quality assurance'
+
+# JCVI groups ------------------------------------------------------------------
+
+## Carer
+carer_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-carer.csv",
     column="code"
+)
+
+## No longer a carer
+notcarer_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-notcarer.csv",
+    column="code"
+)
+
+## Wider learning disability
+learndis_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-learndis.csv",
+    column="code"
+)
+
+## Employed by care home
+carehome_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-carehome.csv",
+    column="code"
+)
+
+## Employed by nursing home
+nursehome_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-nursehome.csv",
+    column="code"
+)
+
+## Employed by domiciliary care provider
+domcare_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-domcare.csv",
+    column="code"
+)
+
+## Patients in long-stay nursing and residential care
+longres_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-longres.csv",
+    column="code"
+)
+
+## High risk from COVID-19 code
+shield_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-shield.csv",
+    column="code"
+)
+
+## Lower risk from COVID-19
+nonshield_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-nonshield.csv",
+    column="code"
+)
+
+## Pregnancy
+preg_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-preg.csv",
+    column="code"
+)
+
+## Pregnancy or delivery
+pregdel_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-pregdel.csv",
+    column="code"
+)
+
+## All BMI coded terms
+bmi_stage_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-bmi_stage.csv",
+    column="code"
+)
+
+## Severe obesity code recorded
+sev_obesity_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-sev_obesity.csv",
+    column="code"
+)
+
+## Asthma diagnosis code
+ast_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-ast.csv",
+    column="code"
+)
+
+## Asthma admission
+astadm_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-astadm.csv",
+    column="code"
+)
+
+## Asthma systemic steroid prescription
+astrx_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-astrx.csv",
+    column="code"
+)
+
+## Chronic Respiratory Disease
+resp_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-resp_cov.csv",
+    column="code"
+)
+
+## Chronic neurological disease including significantlearning disorder
+cns_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-cns_cov.csv",
+    column="code"
+)
+
+## Asplenia or dysfunction of the spleen
+spln_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-spln_cov.csv",
+    column="code"
+)
+
+## Diabetes diagnosis
+diab_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-diab.csv",
+    column="code"
+)
+
+## Diabetes resolved
+dmres_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-dmres.csv",
+    column="code"
+)
+
+## Severe mental illness
+sev_mental_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-sev_mental.csv",
+    column="code"
+)
+
+## Remission relating to severe mental illness
+smhres_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-smhres.csv",
+    column="code"
+)
+
+## Chronic heart disease
+chd_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-chd_cov.csv",
+    column="code"
+)
+
+## Chronic kidney disease diagnostic
+ckd_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-ckd_cov.csv",
+    column="code"
+)
+
+## Chronic kidney disease - all stages
+ckd15_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-ckd15.csv",
+    column="code"
+)
+
+## Chronic kidney disease-stages 3 - 5
+ckd35_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-ckd35.csv",
+    column="code"
+)
+
+## Chronic liver disease
+cld_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-cld.csv",
+    column="code"
+)
+
+## Immunosuppression diagnosis
+immdx_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-immdx_cov.csv",
+    column="code"
+)
+
+## Immunosuppression medication
+immrx_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-immrx.csv",
+    column="code"
+)
+
+# Household contact of shielding individual
+hhld_imdef_primis = codelist_from_csv(
+    "codelists/primis-covid19-vacc-uptake-hhld_imdef.csv",
+    column="code",
 )
