@@ -521,10 +521,10 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         ## Obesity 
         cov_bin_obesity=(
             (last_matching_event_clinical_snomed_before(
-                bmi_obesity_snomed, index_date
+                obesity_snomed, index_date
             ).exists_for_patient()) |
             (last_matching_event_apc_before(
-                bmi_obesity_icd10, index_date
+                obesity_icd10, index_date
             ).exists_for_patient())
         ),
 
