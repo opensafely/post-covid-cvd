@@ -559,13 +559,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         ## Dementia
         cov_bin_dementia_combined=(
             (last_matching_event_clinical_snomed_before(
-                dementia_snomed + dementia_vascular_snomed, index_date
+                dementia_snomed, index_date
             ).exists_for_patient()) |
             (last_matching_event_clinical_ctv3_before(
                 dementia_ctv3, index_date
             ).exists_for_patient()) |
             (last_matching_event_apc_before(
-                dementia_icd10 + dementia_vascular_icd10, index_date
+                dementia_icd10, index_date
             ).exists_for_patient())
         ),
 
