@@ -561,9 +561,6 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             (last_matching_event_clinical_snomed_before(
                 dementia_snomed, index_date
             ).exists_for_patient()) |
-            (last_matching_event_clinical_ctv3_before(
-                dementia_ctv3, index_date
-            ).exists_for_patient()) |
             (last_matching_event_apc_before(
                 dementia_icd10, index_date
             ).exists_for_patient())
@@ -603,9 +600,6 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         cov_bin_hypertension=(
             (last_matching_event_clinical_snomed_before(
                 hypertension_snomed, index_date
-            ).exists_for_patient()) |
-            (last_matching_event_clinical_ctv3_before(
-                hypertension_ctv3, index_date
             ).exists_for_patient()) |
             (last_matching_med_dmd_before(
                 hypertension_drugs_dmd, index_date

@@ -264,7 +264,7 @@ dementia_vas_icd10 = codelist_from_csv(
     column="code"
 )
 dementia_snomed = dementia_nonvas_snomed + dementia_vas_snomed
-dementia_ic10 = dementia_nonvas_icd10 + dementia_vas_icd10
+dementia_icd10 = dementia_nonvas_icd10 + dementia_vas_icd10
 
 ### Liver disease 
 liver_disease_snomed = codelist_from_csv(
