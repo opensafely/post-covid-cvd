@@ -35,6 +35,7 @@ from variable_helper_functions import (
     filter_codes_by_category,
 )
 
+# Define generate variables function
 def generate_variables(index_date, end_date_exp, end_date_out):  
 
     ## Inclusion/exclusion criteria
@@ -676,23 +677,38 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         when(exp_date_covid19_confirmed.is_null()).then("no_infection")
     )
 
-    # List variables to be written into dataset
+    ### History of ATE
+    sub_bin_ate = (
+        (last_matching_event_clinical_snomed_before(
+            ate_snomed, index_date
+        ).exists_for_patient()) |
+        (last_matching_event_apc_before(
+            ate_icd10, index_date
+        ).exists_for_patient())
+    )
+
+    ## Define dictionary of variables to be written into dataset
     dynamic_variables = dict(
+        ### Inclusion/exclusion criteria
         inex_bin_6m_reg = inex_bin_6m_reg,
         inex_bin_alive = inex_bin_alive,
+        ### Censoring criteria
         cens_date_dereg = cens_date_dereg,
+        ### Exposures
         exp_date_covid19_confirmed = exp_date_covid19_confirmed,
+        ### Quality assurance
         qa_bin_prostate_cancer = qa_bin_prostate_cancer,
         qa_bin_pregnancy = qa_bin_pregnancy,
         qa_num_birth_year = qa_num_birth_year,
         qa_bin_hrtcocp = qa_bin_hrtcocp,
+        ### Outcomes (including tmp_* for Venn diagrams)
         tmp_out_date_ami_snomed = tmp_out_date_ami_snomed,
         tmp_out_date_ami_apc = tmp_out_date_ami_apc,
         tmp_out_date_ami_death = tmp_out_date_ami_death,
         out_date_ami = out_date_ami,
         tmp_out_date_stroke_isch_snomed = tmp_out_date_stroke_isch_snomed,
         tmp_out_date_stroke_isch_apc = tmp_out_date_stroke_isch_apc,
-        tmp_out_date_stroke_isch_death = tmp_out_date_stroke_isch_death
+        tmp_out_date_stroke_isch_death = tmp_out_date_stroke_isch_death,
         out_date_stroke_isch = out_date_stroke_isch,
         tmp_out_date_ate_snomed = tmp_out_date_ate_snomed,
         tmp_out_date_ate_apc = tmp_out_date_ate_apc,
@@ -726,6 +742,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         tmp_out_date_stroke_sahhs_apc = tmp_out_date_stroke_sahhs_apc,
         tmp_out_date_stroke_sahhs_death = tmp_out_date_stroke_sahhs_death,
         out_date_stroke_sahhs = out_date_stroke_sahhs,
+        ### Core covariates
         cov_num_age = cov_num_age,
         cov_cat_sex = cov_cat_sex,
         cov_cat_ethnicity = cov_cat_ethnicity,
@@ -744,8 +761,10 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         cov_bin_obesity = cov_bin_obesity,
         cov_bin_copd = cov_bin_copd,
         cov_bin_ami = cov_bin_ami,
-        cov_bin_stroke_isch = cov_bin_stroke_isch,
+        #cov_bin_stroke_isch = cov_bin_stroke_isch,
         cov_bin_depression = cov_bin_depression,
+        ####
+        ### Project specific covariates
         cov_bin_stroke_all = cov_bin_stroke_all,
         cov_bin_other_ae = cov_bin_other_ae,
         cov_bin_vte = cov_bin_vte,
@@ -756,8 +775,10 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         cov_bin_anticoagulant = cov_bin_anticoagulant,
         cov_bin_cocp = cov_bin_cocp,
         cov_bin_hrt = cov_bin_hrt,
+        ### Subgroups
         sub_bin_covid_history = sub_bin_covid_history,
-        sub_cat_covid_severity = sub_cat_covid_severity
+        sub_cat_covid_severity = sub_cat_covid_severity,
+        sub_bin_ate = sub_bin_ate
     )
 
-    return dynamic_variables  # Ensure this is aligned correctly
+    return dynamic_variables
