@@ -1,12 +1,10 @@
 from ehrql import (
-    codelist_from_csv,
-    create_dataset,
     days,
     case,
     when,
-    minimum_of,
-    maximum_of,
+    minimum_of
 )
+
 # Bring table definitions from the TPP backend 
 from ehrql.tables.tpp import ( 
     patients, 
@@ -14,41 +12,32 @@ from ehrql.tables.tpp import (
     addresses, 
     appointments, 
     occupation_on_covid_vaccine_record,
-    vaccinations,
     sgss_covid_all_tests,
     apcs, 
-    ec,
-    clinical_events, 
-    medications, 
+    clinical_events,
     ons_deaths,
 )
 
 # Codelists from codelists.py (which pulls all variables from the codelist folder)
 from codelists import *
 
-
 # Call functions from variable_helper_functions
 from variable_helper_functions import (
     ever_matching_event_clinical_ctv3_before,
-    first_matching_event_clinical_ctv3_between,
     first_matching_event_clinical_snomed_between,
-    first_matching_med_dmd_between,
     first_matching_event_apc_between,
-    first_matching_event_ec_snomed_between,
     matching_death_between,
     last_matching_event_clinical_ctv3_before,
     last_matching_event_clinical_snomed_before,
     last_matching_med_dmd_before,
     last_matching_event_apc_before,
-    last_matching_event_ec_snomed_before,
     matching_death_before,
     filter_codes_by_category,
 )
 
-
 def generate_variables(index_date, end_date_exp, end_date_out):  
 
-    ## EXPOSURE(S)
+    ## Exposures
 
     ### COVID-19
 
@@ -101,7 +90,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         tmp_exp_date_covid19_confirmed_death
     )
 
-    ## OUTCOME(S)
+    ## Outcomes
 
     ### Acute myocardial infarction
 
@@ -439,7 +428,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
     ## Combine the variables into the final dictionary
     dynamic_variables = dict(
 
-# Exposures ---------------------------------------------------------------------------------------------------
+    # Exposures ---------------------------------------------------------------------------------------------------
 
         tmp_exp_date_covid19_confirmed_sgss=tmp_exp_date_covid19_confirmed_sgss,
         tmp_exp_date_covid19_confirmed_snomed=tmp_exp_date_covid19_confirmed_snomed,
@@ -449,7 +438,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         tmp_exp_date_covid19_confirmed_death=tmp_exp_date_covid19_confirmed_death,       
         exp_date_covid19_confirmed=exp_date_covid19_confirmed,
 
-# Outcomes ---------------------------------------------------------------------------------------------------
+    # Outcomes ---------------------------------------------------------------------------------------------------
 
         out_date_ami=out_date_ami,
         out_date_stroke_isch=out_date_stroke_isch,
@@ -462,7 +451,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         out_date_tia=out_date_tia,
         out_date_stroke_sahhs=out_date_stroke_sahhs,
 
-# Covariates-------------------------------------------------------------------------------------------------  
+    # Covariates ------------------------------------------------------------------------------------------------  
 
         ## Age
         cov_date_of_birth=patients.date_of_birth,
@@ -642,8 +631,9 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).exists_for_patient())
         ),
 
-# Others
-    ## History of Covid-19 Combined
+    # Subgroups -----------------------------------------------------------------------------------------------------------
+
+        ## History of COVID-19
 
         tmp_sub_bin_priorcovid19_confirmed_sgss=tmp_sub_bin_priorcovid19_confirmed_sgss,
         tmp_sub_bin_priorcovid19_confirmed_snomed=tmp_sub_bin_priorcovid19_confirmed_snomed,
@@ -654,9 +644,8 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             tmp_sub_bin_priorcovid19_confirmed_apc
         ),
 
-    ## Covid_19 severity
+        ## COVID-19 severity
     
-        # case(*when_thens, otherwise=None) the conditions are evaluated in order https://docs.opensafely.org/ehrql/reference/language/#case
         sub_cat_covid19_hospital = case(
             when(
                 (exp_date_covid19_confirmed.is_not_null()) &
@@ -668,22 +657,22 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             when(exp_date_covid19_confirmed.is_null()).then("no_infection")
         ),
 
-    # Inclusion/exclusion variables ----------------------------------------------------------------------------------------------------
+    # Inclusion/exclusion criteria -----------------------------------------------------------------------------------------------
 
-    ## Registered for a minimum of 6 months prior to the study start date # line 98: https://github.com/opensafely/comparative-booster-spring2023/blob/main/analysis/dataset_definition.py 
+        ## Registered for a minimum of 6 months prior to index date
 
         inex_bin_6m_reg = (practice_registrations.spanning(
             index_date - days(180), index_date
             )).exists_for_patient(),
 
-    ## Alive on the study start date
+        ## Alive on index date
 
         inex_bin_alive = (((patients.date_of_death.is_null()) | (patients.date_of_death.is_after(index_date))) & 
         ((ons_deaths.date.is_null()) | (ons_deaths.date.is_after(index_date)))),
 
-    # Deregistration variables (define it here rather than variables_dates.py, as this variable depends on the index dates ----------------
+    # Censoring criteria ------------------------------------------------------------------------------------------------------------
 
-    ## First deregistration_date on/after index date (deregistered from all supported practices)
+        ## Deregistered
 
         cens_date_dereg= (
             practice_registrations.where(practice_registrations.end_date.is_not_null())
@@ -693,9 +682,9 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             .end_date
         ),
 
-    # Quality assurance variables---------------------------------------------------------------------------------------------------------- 
+    # Quality assurance ------------------------------------------------------------------------------------------------------------
 
-    ## Prostate cancer
+        ## Prostate cancer
 
         qa_bin_prostate_cancer=(
             (last_matching_event_clinical_snomed_before(
@@ -718,7 +707,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         ## Year of birth
         qa_num_birth_year=patients.date_of_birth.year,
 
-        ## COCP or heart medication
+        ## COCP or HRT medication
         qa_bin_hrtcocp=last_matching_med_dmd_before(
             cocp_dmd + hrt_dmd, index_date
         ).exists_for_patient(),
