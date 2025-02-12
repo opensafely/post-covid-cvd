@@ -1,13 +1,18 @@
 # Structure ---------------------------------------------------------------------
 
 """ 
-Setup
-Exposures
-Quality assurance
-JCVI groups
-Core covariates
-Outcomes [please edit for project] 
-Project specific covariates [please edit for project]
+
+ALL PROJECTS (USUALLY NO EDITS REQUIRED):
+- Setup
+- Exposures
+- Quality assurance
+- JCVI groups
+- Core covariates
+
+PROJECT SPECIFIC (PLEASE EDIT FOR YOUR PROJECT):
+- Outcomes
+- Project specific covariates
+
 """
 
 # Setup ------------------------------------------------------------------------
@@ -392,7 +397,7 @@ bmi_primis = codelist_from_csv(
 )
 
 ### Chronic obstructive pulmonary disease (COPD) 
-copd_ctv3_clinical = codelist_from_csv(
+copd_ctv3 = codelist_from_csv(
     "codelists/opensafely-current-copd.csv",
     column="CTV3ID"
 )
@@ -570,7 +575,7 @@ stroke_sahhs_icd10 = codelist_from_csv(
 
 # Project specific covariates --------------------------------------------------
 
-### All stroke (will replace ischaemic stroke core covariate for this project)
+### All stroke ('all stroke' will replace the core covariate 'ischaemic stroke' for this project)
 stroke_snomed = stroke_isch_snomed + stroke_sahhs_snomed
 stroke_icd10 = stroke_isch_icd10 + stroke_sahhs_icd10
 
@@ -588,7 +593,7 @@ stroke_icd10 = stroke_isch_icd10 + stroke_sahhs_icd10
 
 ### Angina 
 #### angina_snomed defined earlier for this project - see 'Outcomes'
-#### angina_ae_icd10 defined earlier for this project - see 'Outcomes'
+#### angina_icd10 defined earlier for this project - see 'Outcomes'
 
 ### Lipid lowering medications 
 lipid_lowering_dmd = codelist_from_csv(
