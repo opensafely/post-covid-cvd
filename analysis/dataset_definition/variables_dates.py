@@ -1,26 +1,14 @@
 from ehrql import (
-    codelist_from_csv,
-    create_dataset,
     days,
     case,
     when,
     minimum_of,
-    maximum_of,
 )
 
 # Bring table definitions from the TPP backend 
 from ehrql.tables.tpp import ( 
     patients, 
-    practice_registrations, 
-    addresses, 
-    appointments, 
-    occupation_on_covid_vaccine_record,
     vaccinations,
-    sgss_covid_all_tests,
-    apcs, 
-    ec,
-    clinical_events, 
-    medications, 
     ons_deaths,
 )
 
@@ -32,18 +20,7 @@ from datetime import date
 
 # Call functions from variable_helper_functions
 from variable_helper_functions import (
-    first_matching_event_clinical_ctv3_between,
-    first_matching_event_clinical_snomed_between,
-    first_matching_med_dmd_between,
-    first_matching_event_apc_between,
-    first_matching_event_ec_snomed_between,
-    matching_death_between,
-    last_matching_event_clinical_ctv3_before,
     last_matching_event_clinical_snomed_before,
-    last_matching_med_dmd_before,
-    last_matching_event_apc_before,
-    last_matching_event_ec_snomed_before,
-    matching_death_before,
     last_matching_event_clinical_snomed_between,
     last_matching_med_dmd_between,
 )
@@ -54,19 +31,15 @@ import json
 with open("output/study_dates.json") as f:
   study_dates = json.load(f)
 
-# Extracting all variables from the study_dates dictionary
-earliest_expec = study_dates["earliest_expec"]
+# Extract relevant dates from the study_dates dictionary
 ref_age_1 = study_dates["ref_age_1"]
 ref_age_2 = study_dates["ref_age_2"]
 ref_cev = study_dates["ref_cev"]
 ref_ar = study_dates["ref_ar"]
 pandemic_start = study_dates["pandemic_start"]
-delta_date = study_dates["delta_date"]
-omicron_date = study_dates["omicron_date"]
 vax1_earliest = study_dates["vax1_earliest"] 
 vax2_earliest = study_dates["vax2_earliest"]
-vax3_earliest = study_dates["vax3_earliest"] 
-all_eligible = study_dates["all_eligible"]
+vax3_earliest = study_dates["vax3_earliest"]
 
 # JCVI VARIABLES-------------------------------------------------------------------------------------------------------------------
 
