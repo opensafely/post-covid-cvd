@@ -63,7 +63,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
     ## Exposures
 
     ### COVID-19
-    tmp_exp_date_covid19_confirmed_sgss = (
+    tmp_exp_date_covid_sgss = (
         sgss_covid_all_tests.where(
             sgss_covid_all_tests.specimen_taken_date.is_on_or_between(index_date, end_date_exp)
         )
@@ -72,7 +72,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         .first_for_patient()
         .specimen_taken_date
     )
-    tmp_exp_date_covid19_confirmed_snomed = (
+    tmp_exp_date_covid_snomed = (
         clinical_events.where(
             (clinical_events.ctv3_code.is_in(
                 covid_primary_care_code + 
@@ -84,7 +84,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         .first_for_patient()
         .date
     )
-    tmp_exp_date_covid19_confirmed_apc = (
+    tmp_exp_date_covid_apc = (
         apcs.where(
             ((apcs.primary_diagnosis.is_in(covid_codes)) | 
             (apcs.secondary_diagnosis.is_in(covid_codes))) & 
@@ -94,16 +94,16 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         .first_for_patient()
         .admission_date
     )
-    tmp_exp_covid19_confirmed_death = matching_death_between(covid_codes, index_date, end_date_exp)
+    tmp_exp_covid_death = matching_death_between(covid_codes, index_date, end_date_exp)
     tmp_exp_date_death = ons_deaths.date
-    tmp_exp_date_covid19_confirmed_death = case(
-            when(tmp_exp_covid19_confirmed_death).then(tmp_exp_date_death)
+    tmp_exp_date_covid_death = case(
+            when(tmp_exp_covid_death).then(tmp_exp_date_death)
     )
-    exp_date_covid19_confirmed = minimum_of(
-        tmp_exp_date_covid19_confirmed_sgss, 
-        tmp_exp_date_covid19_confirmed_snomed,
-        tmp_exp_date_covid19_confirmed_apc,
-        tmp_exp_date_covid19_confirmed_death
+    exp_date_covid = minimum_of(
+        tmp_exp_date_covid_sgss, 
+        tmp_exp_date_covid_snomed,
+        tmp_exp_date_covid_apc,
+        tmp_exp_date_covid_death
     )
 
     ## Quality assurance
@@ -356,6 +356,11 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         tmp_out_date_stroke_sahhs_death
     )
 
+    ## Strata
+
+    ### Region
+    strat_cat_region = practice_registrations.for_patient_on(index_date).practice_nuts1_region_name
+
     ## Core covariates
 
     ### Age
@@ -384,9 +389,6 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         when(addresses.for_patient_on(index_date).imd_rounded < int(32844 * 5 / 5)).then("5 (least deprived)"),
         otherwise="unknown",
     )
-
-    ### Region
-    cov_cat_region = practice_registrations.for_patient_on(index_date).practice_nuts1_region_name
 
     ### Smoking status
     tmp_most_recent_smoking_cat = (
@@ -657,24 +659,24 @@ def generate_variables(index_date, end_date_exp, end_date_out):
     )
 
     ### COVID-19 severity
-    tmp_sub_date_covid_severity = (
+    tmp_sub_date_covid_hospital = (
         apcs.where(
             (apcs.primary_diagnosis.is_in(covid_codes)) & 
-            (apcs.admission_date.is_on_or_after(exp_date_covid19_confirmed))
+            (apcs.admission_date.is_on_or_after(exp_date_covid))
         )
         .sort_by(apcs.admission_date)
         .first_for_patient()
         .admission_date
     )
-    sub_cat_covid_severity = case(
+    sub_cat_covid_hospital = case(
         when(
-            (exp_date_covid19_confirmed.is_not_null()) &
-            (tmp_sub_date_covid_severity.is_not_null()) &
-            ((tmp_sub_date_covid_severity - exp_date_covid19_confirmed).days >= 0) &
-            ((tmp_sub_date_covid_severity - exp_date_covid19_confirmed).days < 29)
+            (exp_date_covid.is_not_null()) &
+            (tmp_sub_date_covid_hospital.is_not_null()) &
+            ((tmp_sub_date_covid_hospital - exp_date_covid).days >= 0) &
+            ((tmp_sub_date_covid_hospital - exp_date_covid).days < 29)
             ).then("hospitalised"),
-        when(exp_date_covid19_confirmed.is_not_null()).then("non_hospitalised"),
-        when(exp_date_covid19_confirmed.is_null()).then("no_infection")
+        when(exp_date_covid.is_not_null()).then("non_hospitalised"),
+        when(exp_date_covid.is_null()).then("no_infection")
     )
 
     ### History of ATE
@@ -695,7 +697,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         ### Censoring criteria
         cens_date_dereg = cens_date_dereg,
         ### Exposures
-        exp_date_covid19_confirmed = exp_date_covid19_confirmed,
+        exp_date_covid = exp_date_covid,
         ### Quality assurance
         qa_bin_prostate_cancer = qa_bin_prostate_cancer,
         qa_bin_pregnancy = qa_bin_pregnancy,
@@ -742,12 +744,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         tmp_out_date_stroke_sahhs_apc = tmp_out_date_stroke_sahhs_apc,
         tmp_out_date_stroke_sahhs_death = tmp_out_date_stroke_sahhs_death,
         out_date_stroke_sahhs = out_date_stroke_sahhs,
+        ### Strata
+        strat_cat_region = strat_cat_region,
         ### Core covariates
         cov_num_age = cov_num_age,
         cov_cat_sex = cov_cat_sex,
         cov_cat_ethnicity = cov_cat_ethnicity,
         cov_cat_imd = cov_cat_imd,
-        cov_cat_region = cov_cat_region,
         cov_cat_smoking = cov_cat_smoking,
         cov_bin_carehome = cov_bin_carehome,
         cov_num_consrate2019 = cov_num_consrate2019,
@@ -763,7 +766,6 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         cov_bin_ami = cov_bin_ami,
         #cov_bin_stroke_isch = cov_bin_stroke_isch,
         cov_bin_depression = cov_bin_depression,
-        ####
         ### Project specific covariates
         cov_bin_stroke_all = cov_bin_stroke_all,
         cov_bin_other_ae = cov_bin_other_ae,
@@ -777,7 +779,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         cov_bin_hrt = cov_bin_hrt,
         ### Subgroups
         sub_bin_covid_history = sub_bin_covid_history,
-        sub_cat_covid_severity = sub_cat_covid_severity,
+        sub_cat_covid_hospital = sub_cat_covid_hospital,
         sub_bin_ate = sub_bin_ate
     )
 

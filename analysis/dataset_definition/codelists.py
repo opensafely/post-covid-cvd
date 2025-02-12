@@ -7,6 +7,7 @@ ALL PROJECTS (USUALLY NO EDITS REQUIRED):
 - Exposures
 - Quality assurance
 - JCVI groups
+- Strata
 - Core covariates
 
 PROJECT SPECIFIC (PLEASE EDIT FOR YOUR PROJECT):
@@ -257,6 +258,11 @@ hhld_imdef_primis = codelist_from_csv(
     column="code",
 )
 
+# Strata -----------------------------------------------------------------------
+
+### Region 
+#### No codelist required
+
 # Core covariates --------------------------------------------------------------
 
 ### Age 
@@ -278,9 +284,6 @@ primis_covid19_vacc_update_ethnicity = codelist_from_csv(
 )
 
 ### Deprivation 
-#### No codelist required
-
-### Region 
 #### No codelist required
 
 ### Smoking status 
