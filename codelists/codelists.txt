@@ -7,12 +7,7 @@ user/RochelleKnight/prostate_cancer_icd10/6b27d648
 user/RochelleKnight/pregnancy_and_birth_snomed/1d46bcb3
 user/elsie_horne/cocp_dmd/1666a7a3
 user/elsie_horne/hrt_dmd/19196799
-primis-covid19-vacc-uptake/carer/v1
-primis-covid19-vacc-uptake/notcarer/v1
 primis-covid19-vacc-uptake/learndis/v1
-primis-covid19-vacc-uptake/carehome/v1
-primis-covid19-vacc-uptake/nursehome/v1
-primis-covid19-vacc-uptake/domcare/v1
 primis-covid19-vacc-uptake/longres/v1
 primis-covid19-vacc-uptake/shield/v1
 primis-covid19-vacc-uptake/nonshield/v1
@@ -39,9 +34,7 @@ primis-covid19-vacc-uptake/immdx_cov/v1
 primis-covid19-vacc-uptake/immrx/v1
 primis-covid19-vacc-uptake/hhld_imdef/v1
 opensafely/ethnicity/2020-04-27
-primis-covid19-vacc-uptake/eth2001/v1
 opensafely/smoking-clear/2020-04-29
-opensafely/smoking-unclear/2020-04-29
 user/elsie_horne/dementia_snomed/7bd3364c
 user/elsie_horne/dementia_vascular_snomed/0eb67607
 user/elsie_horne/dementia_icd10/2df21cb7
@@ -91,6 +84,8 @@ user/hjforbes/angina_snomed/52df16a2
 user/RochelleKnight/angina_icd10/756e8ce3
 user/hjforbes/tia_snomed/04fdfd0d
 user/RochelleKnight/tia_icd10/5c5f19ae
+user/elsie_horne/stroke_sah_hs_snomed/6adc02f9
+user/RochelleKnight/stroke_sah_hs_icd10/0e7e0019
 user/elsie_horne/lipid_lowering_dmd/66fa812e
 user/elsie_horne/antiplatelet_dmd/61950142
 user/elsie_horne/anticoagulant_dmd/7aa47477

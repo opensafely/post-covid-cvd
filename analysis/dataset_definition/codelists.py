@@ -72,39 +72,9 @@ hrt_dmd = codelist_from_csv(
 
 # JCVI groups ------------------------------------------------------------------
 
-## Carer
-carer_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-carer.csv",
-    column="code"
-)
-
-## No longer a carer
-notcarer_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-notcarer.csv",
-    column="code"
-)
-
 ## Wider learning disability
 learndis_primis = codelist_from_csv(
     "codelists/primis-covid19-vacc-uptake-learndis.csv",
-    column="code"
-)
-
-## Employed by care home
-carehome_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-carehome.csv",
-    column="code"
-)
-
-## Employed by nursing home
-nursehome_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-nursehome.csv",
-    column="code"
-)
-
-## Employed by domiciliary care provider
-domcare_primis = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-domcare.csv",
     column="code"
 )
 
@@ -277,11 +247,6 @@ opensafely_ethnicity_codes_6 = codelist_from_csv(
     column="Code",
     category_column="Grouping_6"
 )
-primis_covid19_vacc_update_ethnicity = codelist_from_csv(
-    "codelists/primis-covid19-vacc-uptake-eth2001.csv",
-    column="code",
-    category_column="grouping_6_id"
-)
 
 ### Deprivation 
 #### No codelist required
@@ -289,11 +254,6 @@ primis_covid19_vacc_update_ethnicity = codelist_from_csv(
 ### Smoking status 
 smoking_clear = codelist_from_csv(
     "codelists/opensafely-smoking-clear.csv",
-    column="CTV3Code",
-    category_column="Category"
-)
-smoking_unclear = codelist_from_csv(
-    "codelists/opensafely-smoking-unclear.csv",
     column="CTV3Code",
     category_column="Category"
 )
