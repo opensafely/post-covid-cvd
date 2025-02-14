@@ -150,7 +150,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_ami = minimum_of(
-        tmp_out_date_ami_snomed,
+        tmp_out_date_ami_gp,
         tmp_out_date_ami_apc,
         tmp_out_date_ami_death
     )
