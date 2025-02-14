@@ -72,7 +72,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         .first_for_patient()
         .specimen_taken_date
     )
-    tmp_exp_date_covid_snomed = (
+    tmp_exp_date_covid_gp = (
         clinical_events.where(
             (clinical_events.ctv3_code.is_in(
                 covid_primary_care_code + 
@@ -101,7 +101,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
     )
     exp_date_covid = minimum_of(
         tmp_exp_date_covid_sgss, 
-        tmp_exp_date_covid_snomed,
+        tmp_exp_date_covid_gp,
         tmp_exp_date_covid_apc,
         tmp_exp_date_covid_death
     )
@@ -137,7 +137,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
     ## Outcomes
 
     ### Acute myocardial infarction
-    tmp_out_date_ami_snomed = (
+    tmp_out_date_ami_gp = (
         first_matching_event_clinical_snomed_between(
             ami_snomed, index_date, end_date_out
             ).date
@@ -159,7 +159,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
     )
 
     ### Ischaemic stroke
-    tmp_out_date_stroke_isch_snomed = (
+    tmp_out_date_stroke_isch_gp = (
         first_matching_event_clinical_snomed_between(
             stroke_isch_snomed, index_date, end_date_out
             ).date
@@ -175,13 +175,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_stroke_isch = minimum_of(
-        tmp_out_date_stroke_isch_snomed,
+        tmp_out_date_stroke_isch_gp,
         tmp_out_date_stroke_isch_apc,
         tmp_out_date_stroke_isch_death
     )
 
     ### Composite arterial thrombotic event (ATE)
-    tmp_out_date_ate_snomed = (
+    tmp_out_date_ate_gp = (
         first_matching_event_clinical_snomed_between(
             ate_snomed, index_date, end_date_out
             ).date
@@ -197,13 +197,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_ate = minimum_of(
-        tmp_out_date_ate_snomed,
+        tmp_out_date_ate_gp,
         tmp_out_date_ate_apc,
         tmp_out_date_ate_death
     )
     
     ### Deep vein thrombosis (DVT) [includes during pregnancy]
-    tmp_out_date_dvt_snomed = (
+    tmp_out_date_dvt_gp = (
         first_matching_event_clinical_snomed_between(
             dvt_snomed, index_date, end_date_out
             ).date
@@ -219,13 +219,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_dvt = minimum_of(
-        tmp_out_date_dvt_snomed,
+        tmp_out_date_dvt_gp,
         tmp_out_date_dvt_apc,
         tmp_out_date_dvt_death
     )
 
     ### Pulmonary embolism (PE)    
-    tmp_out_date_pe_snomed = (
+    tmp_out_date_pe_gp = (
         first_matching_event_clinical_snomed_between(
             pe_snomed, index_date, end_date_out
             ).date
@@ -241,13 +241,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_pe = minimum_of(
-        tmp_out_date_pe_snomed,
+        tmp_out_date_pe_gp,
         tmp_out_date_pe_apc,
         tmp_out_date_pe_death
     )
 
     ### Composite venous thrombotic event (VTE)
-    tmp_out_date_vte_snomed = (
+    tmp_out_date_vte_gp = (
         first_matching_event_clinical_snomed_between(
             vte_snomed, index_date, end_date_out
             ).date
@@ -263,13 +263,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_vte = minimum_of(
-        tmp_out_date_vte_snomed,
+        tmp_out_date_vte_gp,
         tmp_out_date_vte_apc,
         tmp_out_date_vte_death
     )
 
     ### Heart failure
-    tmp_out_date_hf_snomed = (
+    tmp_out_date_hf_gp = (
         first_matching_event_clinical_snomed_between(
             hf_snomed, index_date, end_date_out
             ).date
@@ -285,13 +285,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_hf = minimum_of(
-        tmp_out_date_hf_snomed,
+        tmp_out_date_hf_gp,
         tmp_out_date_hf_apc,
         tmp_out_date_hf_death
     )
 
     ### Angina
-    tmp_out_date_angina_snomed = (
+    tmp_out_date_angina_gp = (
         first_matching_event_clinical_snomed_between(
             angina_snomed, index_date, end_date_out
             ).date
@@ -307,13 +307,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_angina = minimum_of(
-        tmp_out_date_angina_snomed,
+        tmp_out_date_angina_gp,
         tmp_out_date_angina_apc,
         tmp_out_date_angina_death
     )
 
     ### Transient ischaemic attack
-    tmp_out_date_tia_snomed = (
+    tmp_out_date_tia_gp = (
         first_matching_event_clinical_snomed_between(
             tia_snomed, index_date, end_date_out
             ).date
@@ -329,13 +329,13 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_tia = minimum_of(
-        tmp_out_date_tia_snomed,
+        tmp_out_date_tia_gp,
         tmp_out_date_tia_apc,
         tmp_out_date_tia_death
     )
 
     ### Subarachnoid haemorrhage and haemorrhagic stroke
-    tmp_out_date_stroke_sahhs_snomed = (
+    tmp_out_date_stroke_sahhs_gp = (
         first_matching_event_clinical_snomed_between(
             stroke_sahhs_snomed, index_date, end_date_out
             ).date
@@ -351,7 +351,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
             ).then(ons_deaths.date)
     )
     out_date_stroke_sahhs = minimum_of(
-        tmp_out_date_stroke_sahhs_snomed,
+        tmp_out_date_stroke_sahhs_gp,
         tmp_out_date_stroke_sahhs_apc,
         tmp_out_date_stroke_sahhs_death
     )
@@ -628,14 +628,14 @@ def generate_variables(index_date, end_date_exp, end_date_out):
 ## Subgroups -----------------------------------------------------------------------------------------------------------
 
     ### History of COVID-19
-    tmp_sub_bin_covid_history_sgss = (
+    tmp_sub_bin_covidhistory_sgss = (
         sgss_covid_all_tests.where(
             sgss_covid_all_tests.specimen_taken_date.is_before(index_date)
         )
         .where(sgss_covid_all_tests.is_positive)
         .exists_for_patient()
     )
-    tmp_sub_bin_covid_history_snomed = (
+    tmp_sub_bin_covidhistory_gp = (
         clinical_events.where(
             (clinical_events.ctv3_code.is_in(
                 covid_primary_care_code + 
@@ -645,21 +645,21 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         )
         .exists_for_patient()
     )
-    tmp_sub_bin_covid_history_apc = (
+    tmp_sub_bin_covidhistory_apc = (
         apcs.where(
             ((apcs.primary_diagnosis.is_in(covid_codes)) | (apcs.secondary_diagnosis.is_in(covid_codes))) & 
             (apcs.admission_date.is_before(index_date))
         )
         .exists_for_patient()
     )
-    sub_bin_covid_history = (
-        tmp_sub_bin_covid_history_sgss |
-        tmp_sub_bin_covid_history_snomed |
-        tmp_sub_bin_covid_history_apc
+    sub_bin_covidhistory = (
+        tmp_sub_bin_covidhistory_sgss |
+        tmp_sub_bin_covidhistory_gp |
+        tmp_sub_bin_covidhistory_apc
     )
 
     ### COVID-19 severity
-    tmp_sub_date_covid_hospital = (
+    tmp_sub_date_covidhospital = (
         apcs.where(
             (apcs.primary_diagnosis.is_in(covid_codes)) & 
             (apcs.admission_date.is_on_or_after(exp_date_covid))
@@ -668,12 +668,12 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         .first_for_patient()
         .admission_date
     )
-    sub_cat_covid_hospital = case(
+    sub_cat_covidhospital = case(
         when(
             (exp_date_covid.is_not_null()) &
-            (tmp_sub_date_covid_hospital.is_not_null()) &
-            ((tmp_sub_date_covid_hospital - exp_date_covid).days >= 0) &
-            ((tmp_sub_date_covid_hospital - exp_date_covid).days < 29)
+            (tmp_sub_date_covidhospital.is_not_null()) &
+            ((tmp_sub_date_covidhospital - exp_date_covid).days >= 0) &
+            ((tmp_sub_date_covidhospital - exp_date_covid).days < 29)
             ).then("hospitalised"),
         when(exp_date_covid.is_not_null()).then("non_hospitalised"),
         when(exp_date_covid.is_null()).then("no_infection")
@@ -704,43 +704,43 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         qa_num_birth_year = qa_num_birth_year,
         qa_bin_hrtcocp = qa_bin_hrtcocp,
         ### Outcomes (including tmp_* for Venn diagrams)
-        tmp_out_date_ami_snomed = tmp_out_date_ami_snomed,
+        tmp_out_date_ami_gp = tmp_out_date_ami_gp,
         tmp_out_date_ami_apc = tmp_out_date_ami_apc,
         tmp_out_date_ami_death = tmp_out_date_ami_death,
         out_date_ami = out_date_ami,
-        tmp_out_date_stroke_isch_snomed = tmp_out_date_stroke_isch_snomed,
+        tmp_out_date_stroke_isch_gp = tmp_out_date_stroke_isch_gp,
         tmp_out_date_stroke_isch_apc = tmp_out_date_stroke_isch_apc,
         tmp_out_date_stroke_isch_death = tmp_out_date_stroke_isch_death,
         out_date_stroke_isch = out_date_stroke_isch,
-        tmp_out_date_ate_snomed = tmp_out_date_ate_snomed,
+        tmp_out_date_ate_gp = tmp_out_date_ate_gp,
         tmp_out_date_ate_apc = tmp_out_date_ate_apc,
         tmp_out_date_ate_death = tmp_out_date_ate_death,
         out_date_ate = out_date_ate,
-        tmp_out_date_dvt_snomed = tmp_out_date_dvt_snomed,
+        tmp_out_date_dvt_gp = tmp_out_date_dvt_gp,
         tmp_out_date_dvt_apc = tmp_out_date_dvt_apc,
         tmp_out_date_dvt_death = tmp_out_date_dvt_death,
         out_date_dvt = out_date_dvt,
-        tmp_out_date_pe_snomed = tmp_out_date_pe_snomed,
+        tmp_out_date_pe_gp = tmp_out_date_pe_gp,
         tmp_out_date_pe_apc = tmp_out_date_pe_apc,
         tmp_out_date_pe_death = tmp_out_date_pe_death,
         out_date_pe = out_date_pe,
-        tmp_out_date_vte_snomed = tmp_out_date_vte_snomed,
+        tmp_out_date_vte_gp = tmp_out_date_vte_gp,
         tmp_out_date_vte_apc = tmp_out_date_vte_apc,
         tmp_out_date_vte_death = tmp_out_date_vte_death,
         out_date_vte = out_date_vte,
-        tmp_out_date_hf_snomed = tmp_out_date_hf_snomed,
+        tmp_out_date_hf_gp = tmp_out_date_hf_gp,
         tmp_out_date_hf_apc = tmp_out_date_hf_apc,
         tmp_out_date_hf_death = tmp_out_date_hf_death,
         out_date_hf = out_date_hf,
-        tmp_out_date_angina_snomed = tmp_out_date_angina_snomed,
+        tmp_out_date_angina_gp = tmp_out_date_angina_gp,
         tmp_out_date_angina_apc = tmp_out_date_angina_apc,
         tmp_out_date_angina_death = tmp_out_date_angina_death,
         out_date_angina = out_date_angina,
-        tmp_out_date_tia_snomed = tmp_out_date_tia_snomed,
+        tmp_out_date_tia_gp = tmp_out_date_tia_gp,
         tmp_out_date_tia_apc = tmp_out_date_tia_apc,
         tmp_out_date_tia_death = tmp_out_date_tia_death,
         out_date_tia = out_date_tia,
-        tmp_out_date_stroke_sahhs_snomed = tmp_out_date_stroke_sahhs_snomed,
+        tmp_out_date_stroke_sahhs_gp = tmp_out_date_stroke_sahhs_gp,
         tmp_out_date_stroke_sahhs_apc = tmp_out_date_stroke_sahhs_apc,
         tmp_out_date_stroke_sahhs_death = tmp_out_date_stroke_sahhs_death,
         out_date_stroke_sahhs = out_date_stroke_sahhs,
