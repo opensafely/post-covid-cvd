@@ -622,7 +622,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         hrt_dmd, index_date
     ).exists_for_patient()
 
-## Subgroups -----------------------------------------------------------------------------------------------------------
+    ## Subgroups
 
     ### History of COVID-19
     tmp_sub_bin_covidhistory_sgss = (
