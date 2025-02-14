@@ -23,6 +23,7 @@ study_dates <-
     vax2_earliest = "2021-01-08", # earliest possible date for 2nd vaccination
     vax3_earliest = "2021-02-08", # earliest possible date for 3rd vaccination
     all_eligible = "2021-06-18", # date that all UK adults (18+) are eligible for vaccination
+    mixed_vax_threshold = "2021-05-07", # date that courses of mixed vaccine products were permitted
     lcd_date = "2024-04-30" # last collection date for linked data (APCS; ONS_Deaths; SGSS_*)
   )
 
