@@ -775,8 +775,8 @@ def generate_variables(index_date, end_date_exp, end_date_out):
         cov_bin_cocp = cov_bin_cocp,
         cov_bin_hrt = cov_bin_hrt,
         ### Subgroups
-        sub_bin_covid_history = sub_bin_covid_history,
-        sub_cat_covid_hospital = sub_cat_covid_hospital,
+        sub_bin_covidhistory = sub_bin_covidhistory,
+        sub_cat_covidhospital = sub_cat_covidhospital,
         sub_bin_ate = sub_bin_ate
     )
 
