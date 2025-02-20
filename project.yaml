@@ -23,7 +23,7 @@ actions:
 
   generate_dates:
     run: ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_dates.py
-      --output output/index_dates.csv.gz
+      --output output/dataset_definition/index_dates.csv.gz
     needs:
     - study_dates
     outputs:
@@ -34,7 +34,7 @@ actions:
 
   generate_cohort_prevax:
     run: ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_prevax.py
-      --output output/input_prevax.csv.gz
+      --output output/dataset_definition/input_prevax.csv.gz
     needs:
     - generate_dates
     outputs:
@@ -45,7 +45,7 @@ actions:
 
   generate_cohort_vax:
     run: ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_vax.py
-      --output output/input_vax.csv.gz
+      --output output/dataset_definition/input_vax.csv.gz
     needs:
     - generate_dates
     outputs:
@@ -56,7 +56,7 @@ actions:
 
   generate_cohort_unvax:
     run: ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_unvax.py
-      --output output/input_unvax.csv.gz
+      --output output/dataset_definition/input_unvax.csv.gz
     needs:
     - generate_dates
     outputs:

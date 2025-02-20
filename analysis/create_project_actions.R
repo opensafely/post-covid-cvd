@@ -73,7 +73,7 @@ generate_cohort <- function(cohort){
     comment(glue("Generate cohort - {cohort}")),
     action(
       name = glue("generate_cohort_{cohort}"),
-      run = glue("ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_{cohort}.py --output output/input_{cohort}.csv.gz"),
+      run = glue("ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_{cohort}.py --output output/dataset_definition/input_{cohort}.csv.gz"),
       needs = list("generate_dates"),
       highly_sensitive = list(
         cohort = glue("output/dataset_definition/input_{cohort}.csv.gz")
@@ -111,7 +111,7 @@ actions_list <- splice(
   
   action(
     name = "generate_dates",
-    run = "ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_dates.py --output output/index_dates.csv.gz",
+    run = "ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_dates.py --output output/dataset_definition/index_dates.csv.gz",
     needs = list("study_dates"),
     highly_sensitive = list(
       dataset = glue("output/dataset_definition/index_dates.csv.gz")
