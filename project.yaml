@@ -28,7 +28,7 @@ actions:
     - study_dates
     outputs:
       highly_sensitive:
-        dataset: output/index_dates.csv.gz
+        dataset: output/dataset_definition/index_dates.csv.gz
 
   ## Generate cohort - prevax 
 
@@ -39,7 +39,7 @@ actions:
     - generate_dates
     outputs:
       highly_sensitive:
-        cohort: output/input_prevax.csv.gz
+        cohort: output/dataset_definition/input_prevax.csv.gz
 
   ## Generate cohort - vax 
 
@@ -50,7 +50,7 @@ actions:
     - generate_dates
     outputs:
       highly_sensitive:
-        cohort: output/input_vax.csv.gz
+        cohort: output/dataset_definition/input_vax.csv.gz
 
   ## Generate cohort - unvax 
 
@@ -61,5 +61,5 @@ actions:
     - generate_dates
     outputs:
       highly_sensitive:
-        cohort: output/input_unvax.csv.gz
+        cohort: output/dataset_definition/input_unvax.csv.gz
 
