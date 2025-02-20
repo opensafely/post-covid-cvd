@@ -1,3 +1,5 @@
+# Load libraries ----
+
 library(tidyverse)
 library(yaml)
 library(here)
@@ -5,14 +7,15 @@ library(glue)
 library(readr)
 library(dplyr)
 
-# Specify defaults -------------------------------------------------------------
+# Specify defaults ----
 
 defaults_list <- list(
   version = "3.0",
   expectations= list(population_size=1000L)
 )
 cohorts <- c("prevax","vax","unvax")
-# Create generic action function -----------------------------------------------
+
+# Create generic action function ----
 
 action <- function(
     name,
@@ -44,7 +47,7 @@ action <- function(
   action_list
 }
 
-# Create generic comment function ----------------------------------------------
+# Create generic comment function ----
 
 comment <- function(...){
   list_comments <- list(...)
@@ -53,7 +56,7 @@ comment <- function(...){
 }
 
 
-# Create function to convert comment "actions" in a yaml string into proper comments
+# Create function to convert comment "actions" in a yaml string into proper comments ----
 
 convert_comment_actions <-function(yaml.txt){
   yaml.txt %>%
@@ -63,49 +66,27 @@ convert_comment_actions <-function(yaml.txt){
     str_replace_all("\\#\\#\\'\\\n", "\n")
 }
 
-# Create function to generate study population ---------------------------------
+# Create function to generate cohorts ----
 
-generate_study_population <- function(cohort){
+generate_cohort <- function(cohort){
   splice(
-    comment(glue("Generate study population - {cohort}")),
+    comment(glue("Generate cohort - {cohort}")),
     action(
-      name = glue("generate_study_population_{cohort}"),
-      run = glue("ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_{cohort}.py --output output/input_{cohort}.csv.gz"),
-      needs = list("generate_dataset_index_dates"),
+      name = glue("generate_cohort_{cohort}"),
+      run = glue("ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_{cohort}.py --output output/dataset_definition/input_{cohort}.csv.gz"),
+      needs = list("generate_dates"),
       highly_sensitive = list(
-        cohort = glue("output/input_{cohort}.csv.gz")
+        cohort = glue("output/dataset_definition/input_{cohort}.csv.gz")
       )
     )
   )
 }
 
-# Create function to preprocess data -------------------------------------------
-
-preprocess_data <- function(cohort){
-  splice(
-    comment(glue("Preprocess data - {cohort}")),
-    action(
-      name = glue("preprocess_data_{cohort}"),
-      run = glue("r:latest analysis/preprocess/preprocess_data.R"),
-      arguments = c(cohort),
-      needs = list("generate_dataset_index_dates",glue("generate_study_population_{cohort}")),
-      moderately_sensitive = list(
-        describe = glue("output/describe_input_{cohort}_stage0.txt"),
-        describe_venn = glue("output/describe_venn_{cohort}.txt")
-      ),
-      highly_sensitive = list(
-        cohort = glue("output/input_{cohort}.rds"),
-        venn = glue("output/venn_{cohort}.rds")
-      )
-    )
-  )
-}
-
-# Define and combine all actions into a list of actions ------------------------------0
+# Define and combine all actions into a list of actions ----
 
 actions_list <- splice(
   
-  ## Post YAML disclaimer ------------------------------------------------------
+  ## Post YAML disclaimer ----
   
   comment("# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #",
           "DO NOT EDIT project.yaml DIRECTLY",
@@ -114,34 +95,34 @@ actions_list <- splice(
           "# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #"
   ),
   
-  ## Generate vaccination eligibility information ------------------------------
-  comment("Generate vaccination eligibility information"),
+  ## Define study dates ----
+  comment("Define study date"),
   
   action(
-    name = glue("vax_eligibility_inputs"),
-    run = "r:latest analysis/dataset_definition/metadates.R",
+    name = glue("study_dates"),
+    run = "r:latest analysis/study_dates.R",
     highly_sensitive = list(
       study_dates_json = glue("output/study_dates.json")
     )
   ),
   
-  ## Generate index dates for all study cohorts ------------------------------------------
+  ## Generate dates for all cohorts ----
   comment("Generate dates for all cohorts"),
   
   action(
-    name = "generate_dataset_index_dates",
-    run = "ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_dates.py --output output/index_dates.csv.gz",
-    needs = list("vax_eligibility_inputs"),
+    name = "generate_dates",
+    run = "ehrql:v1 generate-dataset analysis/dataset_definition/dataset_definition_dates.py --output output/dataset_definition/index_dates.csv.gz",
+    needs = list("study_dates"),
     highly_sensitive = list(
-      dataset = glue("output/index_dates.csv.gz")
+      dataset = glue("output/dataset_definition/index_dates.csv.gz")
     )
   ),
   
-  ## Generate study population -------------------------------------------------
+  ## Generate cohort ----
   
   splice(
     unlist(lapply(cohorts, 
-                  function(x) generate_study_population(cohort = x)), 
+                  function(x) generate_cohort(cohort = x)), 
            recursive = FALSE
     )
   )
@@ -149,14 +130,14 @@ actions_list <- splice(
 )
 
 
-# Combine actions into project list --------------------------------------------
+# Combine actions into project list ----
 
 project_list <- splice(
   defaults_list,
   list(actions = actions_list)
 )
 
-# Convert list to yaml, reformat, and output a .yaml file ----------------------
+# Convert list to yaml, reformat, and output a .yaml file ----
 
 as.yaml(project_list, indent=2) %>%
   # convert comment actions to comments
@@ -166,7 +147,7 @@ as.yaml(project_list, indent=2) %>%
   str_replace_all("\\\n\\s\\s(\\w)", "\n\n  \\1") %>%
   writeLines("project.yaml")
 
-# Return number of actions -----------------------------------------------------
+# Return number of actions ----
 
 count_run_elements <- function(x) {
 

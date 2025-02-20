@@ -1,17 +1,20 @@
-# # # # # # # # # # # # # # # # # # # # #
-# This script:
-# creates metadata for aspects of the study design
-# # # # # # # # # # # # # # # # # # # # #
-
 # Import libraries ----
+print("Import libraries")
+
 library('tidyverse')
 library('here')
 
-# create study_dates ----
+# Create output/dataset_definition directory ----
+print("Create output/dataset_definition directory")
+
+fs::dir_create(here::here("output/dataset_definition"))
+
+# Create study_dates ----
+print("Create study_dates")
 
 study_dates <-
   list(
-    earliest_expec = "1900-01-01", # earlist date limit for project
+    earliest_expec = "1900-01-01", # earliest date limit for project
     ref_age_1 = "2021-03-31", # reference date for calculating age for phase 1 JCVI groups
     ref_age_2 = "2021-07-01", # reference date for calculating age for phase 2 JCVI groups
     ref_cev = "2021-01-18", # reference date for calculating eligibility for phase 1 JCVI group 4 (CEV: clinically extremely vulnerable group)
@@ -26,5 +29,8 @@ study_dates <-
     mixed_vax_threshold = "2021-05-07", # date that courses of mixed vaccine products were permitted
     lcd_date = "2024-04-30" # last collection date for linked data (APCS; ONS_Deaths; SGSS_*)
   )
+
+# Save study_dates ----
+print("Save study_dates")
 
 jsonlite::write_json(study_dates, path = "output/study_dates.json", auto_unbox = TRUE, pretty=TRUE)
