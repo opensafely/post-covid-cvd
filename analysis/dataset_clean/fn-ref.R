@@ -43,7 +43,7 @@ ref <- function(input) {
   # Handle missing values in cov_cat_smoking -----------------------------------
   print('Handle missing values in cov_cat_smoking')
 
-  if ("cov_cat_ethnicity" %in% names(input)) {
+  if ("cov_cat_smoking" %in% names(input)) {
     input$cov_cat_smoking <- ifelse(
       input$cov_cat_smoking %in% c("E", "N", "S"),
       input$cov_cat_smoking,
