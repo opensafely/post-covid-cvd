@@ -1,12 +1,11 @@
 # Function to set reference levels for factors
 ref <- function(input) {
-  
   # Handle missing values in cov_cat_sex ---------------------------------------
   print('Handle missing values in cov_cat_sex')
-  
+
   if ("cov_cat_sex" %in% names(input)) {
     input$cov_cat_sex <- ifelse(
-      input$cov_cat_sex %in% c("male","female"),
+      input$cov_cat_sex %in% c("male", "female"),
       input$cov_cat_sex,
       "missing"
     )
@@ -14,13 +13,14 @@ ref <- function(input) {
       stop("cov_cat_sex contains missing values.")
     }
   }
-  
+
   # Handle missing values in cov_cat_imd -------------------------------
   print('Handle missing values in cov_cat_imd')
-  
+
   if ("cov_cat_imd" %in% names(input)) {
     input$cov_cat_imd <- ifelse(
-      input$cov_cat_imd %in% c("1 (most deprived)","2","3","4","5 (least deprived)"),
+      input$cov_cat_imd %in%
+        c("1 (most deprived)", "2", "3", "4", "5 (least deprived)"),
       input$cov_cat_imd,
       "missing"
     )
@@ -28,10 +28,10 @@ ref <- function(input) {
       stop("cov_cat_imd contains missing values.")
     }
   }
-  
+
   # Handle missing values in cov_cat_ethnicity ---------------------------------
   print('Handle missing values in cov_cat_ethnicity')
-  
+
   if ("cov_cat_ethnicity" %in% names(input)) {
     input$cov_cat_ethnicity <- ifelse(
       input$cov_cat_ethnicity %in% c("1", "2", "3", "4", "5"),
@@ -50,10 +50,10 @@ ref <- function(input) {
       "M"
     )
   }
-  
+
   # Recode missing values in binary variables as FALSE -------------------------
   print(' Recode missing values in binary variables as FALSE')
-  
+
   input <- input %>%
     mutate(across(contains("_bin_"), ~ ifelse(. == TRUE, TRUE, FALSE))) %>%
     mutate(across(contains("_bin_"), ~ replace_na(., FALSE)))

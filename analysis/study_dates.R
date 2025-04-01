@@ -20,8 +20,8 @@ study_dates <-
     ref_cev = "2021-01-18", # reference date for calculating eligibility for phase 1 JCVI group 4 (CEV: clinically extremely vulnerable group)
     ref_ar = "2021-02-15", # reference date for calculating eligibility for phase 1 JCVI group 5 (at-risk)
     pandemic_start = "2020-01-01", # start date for pandemic in UK
-    delta_date = "2021-06-01", # date that Delta variant became dominant in the UK 
-    omicron_date = "2021-12-14", # date that Omicron variant became dominant in the UK 
+    delta_date = "2021-06-01", # date that Delta variant became dominant in the UK
+    omicron_date = "2021-12-14", # date that Omicron variant became dominant in the UK
     vax1_earliest = "2020-12-08", # earliest possible date for 1st vaccination
     vax2_earliest = "2021-01-08", # earliest possible date for 2nd vaccination
     vax3_earliest = "2021-02-08", # earliest possible date for 3rd vaccination
@@ -33,4 +33,9 @@ study_dates <-
 # Save study_dates ----
 print("Save study_dates")
 
-jsonlite::write_json(study_dates, path = "output/study_dates.json", auto_unbox = TRUE, pretty=TRUE)
+jsonlite::write_json(
+  study_dates,
+  path = "output/study_dates.json",
+  auto_unbox = TRUE,
+  pretty = TRUE
+)
