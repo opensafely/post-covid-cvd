@@ -79,15 +79,14 @@ project_covariates <- c(
 outcomes <- c(
   "out_date_ami",
   "out_date_stroke_isch",
-  "out_date_ate",
-  "out_date_dvt",
   "out_date_pe",
-  "out_date_pvt",
-  "out_date_vte",
+  "out_date_dvt",
+  "out_date_tia",
+  "out_date_stroke_sahhs",
   "out_date_hf",
   "out_date_angina",
-  "out_date_tia",
-  "out_date_stroke_sahhs"
+  "out_date_ate",
+  "out_date_vte"
 )
 
 covariates <- setdiff(
