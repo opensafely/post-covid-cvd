@@ -108,83 +108,45 @@ actions:
         venn: output/dataset_clean/venn-cohort_vax.rds
         cohort_clean: output/dataset_clean/input_vax_clean.rds
 
-  ## Generate table1_cohort_prevax-preex_TRUE 
+  ## Generate table1_cohort_prevax 
 
-  table1-cohort_prevax-preex_TRUE:
-    run: r:v2 analysis/table1/table1.R prevax 18;40;60;80;111 TRUE
+  table1-cohort_prevax:
+    run: r:v2 analysis/table1/table1.R prevax 18;40;60;80;111
     needs:
     - generate_input_prevax_clean
     outputs:
       moderately_sensitive:
-        table1: output/table1/table1-cohort_prevax-preex_TRUE.csv
-        table1_midpoint6: output/table1/table1-cohort_prevax-preex_TRUE-midpoint6.csv
+        table1: output/table1/table1-cohort_prevax.csv
+        table1_midpoint6: output/table1/table1-cohort_prevax-midpoint6.csv
 
-  ## Generate table1_cohort_unvax-preex_TRUE 
+  ## Generate table1_cohort_unvax 
 
-  table1-cohort_unvax-preex_TRUE:
-    run: r:v2 analysis/table1/table1.R unvax 18;40;60;80;111 TRUE
+  table1-cohort_unvax:
+    run: r:v2 analysis/table1/table1.R unvax 18;40;60;80;111
     needs:
     - generate_input_unvax_clean
     outputs:
       moderately_sensitive:
-        table1: output/table1/table1-cohort_unvax-preex_TRUE.csv
-        table1_midpoint6: output/table1/table1-cohort_unvax-preex_TRUE-midpoint6.csv
+        table1: output/table1/table1-cohort_unvax.csv
+        table1_midpoint6: output/table1/table1-cohort_unvax-midpoint6.csv
 
-  ## Generate table1_cohort_vax-preex_TRUE 
+  ## Generate table1_cohort_vax 
 
-  table1-cohort_vax-preex_TRUE:
-    run: r:v2 analysis/table1/table1.R vax 18;40;60;80;111 TRUE
+  table1-cohort_vax:
+    run: r:v2 analysis/table1/table1.R vax 18;40;60;80;111
     needs:
     - generate_input_vax_clean
     outputs:
       moderately_sensitive:
-        table1: output/table1/table1-cohort_vax-preex_TRUE.csv
-        table1_midpoint6: output/table1/table1-cohort_vax-preex_TRUE-midpoint6.csv
-
-  ## Generate table1_cohort_prevax-preex_FALSE 
-
-  table1-cohort_prevax-preex_FALSE:
-    run: r:v2 analysis/table1/table1.R prevax 18;40;60;80;111 FALSE
-    needs:
-    - generate_input_prevax_clean
-    outputs:
-      moderately_sensitive:
-        table1: output/table1/table1-cohort_prevax-preex_FALSE.csv
-        table1_midpoint6: output/table1/table1-cohort_prevax-preex_FALSE-midpoint6.csv
-
-  ## Generate table1_cohort_unvax-preex_FALSE 
-
-  table1-cohort_unvax-preex_FALSE:
-    run: r:v2 analysis/table1/table1.R unvax 18;40;60;80;111 FALSE
-    needs:
-    - generate_input_unvax_clean
-    outputs:
-      moderately_sensitive:
-        table1: output/table1/table1-cohort_unvax-preex_FALSE.csv
-        table1_midpoint6: output/table1/table1-cohort_unvax-preex_FALSE-midpoint6.csv
-
-  ## Generate table1_cohort_vax-preex_FALSE 
-
-  table1-cohort_vax-preex_FALSE:
-    run: r:v2 analysis/table1/table1.R vax 18;40;60;80;111 FALSE
-    needs:
-    - generate_input_vax_clean
-    outputs:
-      moderately_sensitive:
-        table1: output/table1/table1-cohort_vax-preex_FALSE.csv
-        table1_midpoint6: output/table1/table1-cohort_vax-preex_FALSE-midpoint6.csv
+        table1: output/table1/table1-cohort_vax.csv
+        table1_midpoint6: output/table1/table1-cohort_vax-midpoint6.csv
 
   ## Generate make-table1-output 
 
   make-table1-output:
-    run: 'r:v2 analysis/make_output/make_other_output.R table1 prevax-preex_FALSE;unvax-preex_FALSE;vax-preex_FALSE;prevax-preex_TRUE;unvax-preex_TRUE;vax-preex_TRUE '
+    run: r:v2 analysis/make_output/make_other_output.R table1 prevax unvax vax
     needs:
-    - table1-cohort_prevax-preex_FALSE
-    - table1-cohort_unvax-preex_FALSE
-    - table1-cohort_vax-preex_FALSE
-    - table1-cohort_prevax-preex_TRUE
-    - table1-cohort_unvax-preex_TRUE
-    - table1-cohort_vax-preex_TRUE
+    - table1-cohort_prevax
     outputs:
       moderately_sensitive:
         table1_output_midpoint6: output/make_output/table1_output_midpoint6.csv
@@ -12889,7 +12851,7 @@ actions:
   ## Generate make-venn-output 
 
   make-venn-output:
-    run: 'r:v2 analysis/make_output/make_other_output.R venn prevax;unvax;vax '
+    run: r:v2 analysis/make_output/make_other_output.R venn prevax;unvax;vax
     needs:
     - venn-cohort_prevax
     - venn-cohort_unvax
