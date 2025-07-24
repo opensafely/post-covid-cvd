@@ -29,14 +29,15 @@ subgroups <- c(
   "sub_ethnicity_mixed",
   "sub_ethnicity_asian",
   "sub_ethnicity_other",
-  "sub_smoking_never",
-  "sub_smoking_ever",
-  "sub_smoking_current"
+  "sub_ate_TRUE",
+  "sub_ate_FALSE",
+  "sub_vte_TRUE",
+  "sub_vte_FALSE"
 )
 
 # Define preex groups ----
 # Options are: "" (which means none), "_preex_TRUE", "_preex_FALSE"
-preex_groups <- c("_preex_TRUE", "_preex_FALSE")
+preex_groups <- c("")
 
 # Define general covariates ----
 core_covariates <- c(
@@ -59,32 +60,48 @@ core_covariates <- c(
   "cov_bin_stroke_isch"
 )
 
-project_covariates <- c("cov_bin_pneumonia", "cov_bin_asthma", "cov_bin_pf")
+project_covariates <- c(
+  "cov_bin_stroke_all",
+  "cov_bin_other_ae",
+  "cov_bin_vte",
+  "cov_bin_hf",
+  "cov_bin_angina",
+  "cov_bin_lipidmed",
+  "cov_bin_antiplatelet",
+  "cov_bin_anticoagulant",
+  "cov_bin_cocp",
+  "cov_bin_hrt"
+)
 
 # Define covariate and outcome combos ----
 
 # For 'all' analyses
-outcomes <- ""
-covariates <- ""
+outcomes <- c(
+  "out_date_ami",
+  "out_date_stroke_isch",
+  "out_date_ate",
+  "out_date_dvt",
+  "out_date_pe",
+  "out_date_pvt",
+  "out_date_vte",
+  "out_date_hf",
+  "out_date_angina",
+  "out_date_tia",
+  "out_date_stroke_sahhs"
+)
+
+covariates <- setdiff(
+  c(core_covariates, project_covariates),
+  "cov_bin_stroke_isch"
+)
 
 # For preex=TRUE analyses
-outcomes_preex_TRUE <- c(
-  "out_date_pneumonia",
-  "out_date_pf"
-)
-covariates_preex_TRUE <- c(core_covariates, project_covariates)
+outcomes_preex_TRUE <- ""
+covariates_preex_TRUE <- ""
 
 # For preex=FALSE analyses
-outcomes_preex_FALSE <- c(
-  "out_date_copd",
-  "out_date_asthma",
-  "out_date_pneumonia",
-  "out_date_pf"
-)
-covariates_preex_FALSE <- setdiff(
-  c(core_covariates, project_covariates),
-  c("cov_bin_asthma", "cov_bin_copd")
-)
+outcomes_preex_FALSE <- ""
+covariates_preex_FALSE <- ""
 
 # Create empty data frame ----
 df <- data.frame(
