@@ -20,7 +20,7 @@ print("Specify arguments")
 args <- commandArgs(trailingOnly = TRUE)
 
 if (length(args) == 0) {
-  name <- "cohort_prevax-sub_covidhospital_FALSE_preex_FALSE-asthma"
+  name <- "cohort_prevax-sub_covidhospital_FALSE-ate"
 } else {
   name <- args[[1]]
 }
@@ -91,7 +91,7 @@ if (grepl("sub_covidhospital", analysis)) {
   covidhosp <- as.logical(gsub(
     ".*sub_covidhospital_",
     "",
-    analysis
+    gsub("-.*", "", analysis)
   ))
   str_covidhosp_cens <- ifelse(covidhosp, "non_hospitalised", "hospitalised")
   df <- df %>%
@@ -130,7 +130,7 @@ if (grepl("sub_sex_", analysis)) {
   sex <- str_to_title(gsub(
     ".*sub_sex_",
     "",
-    analysis
+    gsub("-.*", "", analysis)
   ))
   df <- df[df$cov_cat_sex == sex, ]
 }
@@ -139,11 +139,11 @@ if (grepl("sub_sex_", analysis)) {
 if (grepl("sub_age_", analysis) == TRUE) {
   check_for_subgroup <- TRUE
   min_age <- as.numeric(strsplit(
-    gsub(".*sub_age_", "", analysis),
+    gsub(".*sub_age_", "", gsub("-.*", "", analysis)),
     split = "_"
   )[[1]][1])
   max_age <- as.numeric(strsplit(
-    gsub(".*sub_age_", "", analysis),
+    gsub(".*sub_age_", "", gsub("-.*", "", analysis)),
     split = "_"
   )[[1]][2])
   df <- df[
@@ -161,24 +161,32 @@ if (grepl("sub_ethnicity_", analysis) == TRUE) {
     gsub(
       ".*sub_ethnicity_",
       "",
-      analysis
+      gsub("-.*", "", analysis)
     )
   ))
   df <- df[df$cov_cat_ethnicity == ethnicity, ]
 }
 
-# Make model input: sub_smoking_* ------------------------------------------
-if (grepl("sub_smoking_", analysis)) {
+# Make model input: sub_ate_* ------------------------------------------
+if (grepl("sub_ate_", analysis)) {
   check_for_subgroup <- TRUE
-  smoking <- paste(
-    str_to_title(gsub(
-      ".*sub_smoking_",
-      "",
-      analysis
-    )),
-    "smoker"
-  )
-  df <- df[df$cov_cat_smoking == smoking, ]
+  ate <- as.logical(gsub(
+    ".*sub_ate_",
+    "",
+    gsub("-.*", "", analysis)
+  ))
+  df <- df[df$sub_bin_ate == ate, ]
+}
+
+# Make model input: sub_vte_* ------------------------------------------
+if (grepl("sub_vte_", analysis)) {
+  check_for_subgroup <- TRUE
+  vte <- as.logical(gsub(
+    ".*sub_vte_",
+    "",
+    gsub("-.*", "", analysis)
+  ))
+  df <- df[df$cov_bin_vte == vte, ]
 }
 
 # Stop code if no subgroup/main analysis was correctly selected
