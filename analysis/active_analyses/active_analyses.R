@@ -35,10 +35,6 @@ subgroups <- c(
   "sub_vte_FALSE"
 )
 
-# Define preex groups ----
-# Options are: "" (which means none), "_preex_TRUE", "_preex_FALSE"
-preex_groups <- c("")
-
 # Define general covariates ----
 core_covariates <- c(
   "cov_cat_ethnicity",
@@ -89,18 +85,14 @@ outcomes <- c(
   "out_date_vte"
 )
 
-covariates <- setdiff(
-  c(core_covariates, project_covariates),
-  "cov_bin_stroke_isch"
+# Collapse covariates ----
+covariate_other <- paste0(
+  setdiff(
+    c(core_covariates, project_covariates),
+    "cov_bin_stroke_isch"
+  ), 
+  collapse = ";"
 )
-
-# For preex=TRUE analyses
-outcomes_preex_TRUE <- ""
-covariates_preex_TRUE <- ""
-
-# For preex=FALSE analyses
-outcomes_preex_FALSE <- ""
-covariates_preex_FALSE <- ""
 
 # Create empty data frame ----
 df <- data.frame(
@@ -127,22 +119,14 @@ df <- data.frame(
 )
 
 # Generate analyses ----
-for (i in preex_groups) {
   for (j in cohorts) {
-    # Retrieve outcomes and covariates for preex group ----
-    out <- get(paste0("outcomes", i))
-    covars <- get(paste0("covariates", i))
-
-    for (k in out) {
-      # Collapse covariates ----
-
-      covariate_other <- paste0(covars, collapse = ";")
+    for (k in outcomes) {
 
       # Add main analysis ----
       df[nrow(df) + 1, ] <- add_analysis(
         cohort = j,
         outcome = k,
-        analysis_name = paste0("main", i),
+        analysis_name = "main",
         covariate_other = covariate_other,
         age_spline = TRUE
       )
@@ -161,25 +145,19 @@ for (i in preex_groups) {
             setdiff(strsplit(covariate_other, ";")[[1]], "cov_cat_ethnicity"),
             collapse = ";"
           )
-        } else if (grepl("sub_smoking", sub)) {
-          adjusted_covariate_other <- paste0(
-            setdiff(strsplit(covariate_other, ";")[[1]], "cov_cat_smoking"),
-            collapse = ";"
-          )
-        }
+        } 
 
         # Add analysis for the subgroup
         df[nrow(df) + 1, ] <- add_analysis(
           cohort = j,
           outcome = k,
-          analysis_name = paste0(sub, i),
+          analysis_name = sub,
           covariate_other = adjusted_covariate_other,
           age_spline = ifelse(grepl("sub_age", sub), FALSE, TRUE)
         )
       }
     }
   }
-}
 
 # Add name for each analysis ----
 df$name <- paste0(
