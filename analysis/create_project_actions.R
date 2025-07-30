@@ -364,52 +364,42 @@ make_model_output <- function(subgroup) {
 make_other_output <- function(action_name, cohort, subgroup = "") {
   cohort_names <- stringr::str_split(as.vector(cohort), ";")[[1]]
   if (subgroup == "All" | subgroup == "") {
-    splice(
-      comment(glue("Generate make-{action_name}-output")),
-      action(
-        name = glue("make-{action_name}-output"),
-        run = "r:v2 analysis/make_output/make_other_output.R",
-        arguments = c(c(action_name), c(cohort)),
-        needs = c(as.list(paste0(
-          action_name,
-          "-cohort_",
-          cohort_names
-        ))),
-        moderately_sensitive = setNames(
-          list(glue(
-            "output/make_output/{action_name}_output_midpoint6.csv"
-          )),
-          glue("{action_name}_output_midpoint6")
-        )
-      )
-    )
+    sub_str <- ""
   } else {
     if (grepl("preex", subgroup)) {
       sub_str <- paste0("-", subgroup)
     } else {
       sub_str <- paste0("-sub_", subgroup)
     }
-    splice(
-      comment(glue("Generate make-{action_name}{sub_str}-output")),
-      action(
-        name = glue("make-{action_name}{sub_str}-output"),
-        run = "r:v2 analysis/make_output/make_other_output.R",
-        arguments = c(c(action_name), c(cohort), c(subgroup)),
-        needs = c(as.list(paste0(
-          action_name,
-          "-cohort_",
-          cohort_names,
-          sub_str
-        ))),
-        moderately_sensitive = setNames(
-          list(glue(
-            "output/make_output/{action_name}{sub_str}_output_midpoint6.csv"
-          )),
-          glue("{action_name}_output_midpoint6")
-        )
+  }
+
+  splice(
+    comment(glue("Generate make-{action_name}{sub_str}-output")),
+    action(
+      name = glue("make-{action_name}{sub_str}-output"),
+      run = "r:v2 analysis/make_output/make_other_output.R",
+      arguments = unlist(lapply(
+        list(
+          c(action_name, cohort, subgroup)
+        ),
+        function(x) {
+          x[x != ""]
+        }
+      )),
+      needs = c(as.list(paste0(
+        action_name,
+        "-cohort_",
+        cohort_names,
+        sub_str
+      ))),
+      moderately_sensitive = setNames(
+        list(glue(
+          "output/make_output/{action_name}{sub_str}_output_midpoint6.csv"
+        )),
+        glue("{action_name}_output_midpoint6")
       )
     )
-  }
+  )
 }
 
 # Define and combine all actions into a list of actions ------------------------
