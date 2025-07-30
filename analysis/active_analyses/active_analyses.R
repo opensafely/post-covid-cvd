@@ -90,7 +90,7 @@ covariate_other <- paste0(
   setdiff(
     c(core_covariates, project_covariates),
     "cov_bin_stroke_isch"
-  ), 
+  ),
   collapse = ";"
 )
 
@@ -119,45 +119,44 @@ df <- data.frame(
 )
 
 # Generate analyses ----
-  for (j in cohorts) {
-    for (k in outcomes) {
+for (j in cohorts) {
+  for (k in outcomes) {
+    # Add main analysis ----
+    df[nrow(df) + 1, ] <- add_analysis(
+      cohort = j,
+      outcome = k,
+      analysis_name = "main",
+      covariate_other = covariate_other,
+      age_spline = TRUE
+    )
 
-      # Add main analysis ----
+    # Add subgroup analyses ----
+    for (sub in subgroups) {
+      # Skip sub_covidhistory if cohort is "prevax"
+      if (sub == "sub_covidhistory" && j == "prevax") {
+        next
+      }
+
+      # Adjust covariate_other for ethnicity subgroups
+      adjusted_covariate_other <- covariate_other
+      if (grepl("sub_ethnicity", sub)) {
+        adjusted_covariate_other <- paste0(
+          setdiff(strsplit(covariate_other, ";")[[1]], "cov_cat_ethnicity"),
+          collapse = ";"
+        )
+      }
+
+      # Add analysis for the subgroup
       df[nrow(df) + 1, ] <- add_analysis(
         cohort = j,
         outcome = k,
-        analysis_name = "main",
-        covariate_other = covariate_other,
-        age_spline = TRUE
+        analysis_name = sub,
+        covariate_other = adjusted_covariate_other,
+        age_spline = ifelse(grepl("sub_age", sub), FALSE, TRUE)
       )
-
-      # Add subgroup analyses ----
-      for (sub in subgroups) {
-        # Skip sub_covidhistory if cohort is "prevax"
-        if (sub == "sub_covidhistory" && j == "prevax") {
-          next
-        }
-
-        # Adjust covariate_other for ethnicity and smoking subgroups
-        adjusted_covariate_other <- covariate_other
-        if (grepl("sub_ethnicity", sub)) {
-          adjusted_covariate_other <- paste0(
-            setdiff(strsplit(covariate_other, ";")[[1]], "cov_cat_ethnicity"),
-            collapse = ";"
-          )
-        } 
-
-        # Add analysis for the subgroup
-        df[nrow(df) + 1, ] <- add_analysis(
-          cohort = j,
-          outcome = k,
-          analysis_name = sub,
-          covariate_other = adjusted_covariate_other,
-          age_spline = ifelse(grepl("sub_age", sub), FALSE, TRUE)
-        )
-      }
     }
   }
+}
 
 # Add name for each analysis ----
 df$name <- paste0(
