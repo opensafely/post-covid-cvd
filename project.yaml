@@ -144,9 +144,11 @@ actions:
   ## Generate make-table1-output 
 
   make-table1-output:
-    run: r:v2 analysis/make_output/make_other_output.R table1 prevax unvax vax
+    run: r:v2 analysis/make_output/make_other_output.R table1 prevax;unvax;vax
     needs:
     - table1-cohort_prevax
+    - table1-cohort_unvax
+    - table1-cohort_vax
     outputs:
       moderately_sensitive:
         table1_output_midpoint6: output/make_output/table1_output_midpoint6.csv

@@ -471,7 +471,7 @@ actions_list <- splice(
   splice(
     make_other_output(
       action_name = "table1",
-      cohort = cohorts
+      cohort = paste0(cohorts, collapse = ";")
     )
   ),
 
