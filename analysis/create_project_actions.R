@@ -170,45 +170,31 @@ clean_data <- function(cohort, describe = describe) {
 
 # Create function for table1 --------------------------------------------
 
-table1 <- function(cohort, ages = "18;40;60;80", preex = "All") {
+table1 <- function(cohort, ages = "18;40;60;80", preex = "") {
   if (preex == "All" | preex == "") {
-    splice(
-      comment(glue("Generate table1_cohort_{cohort}")),
-      action(
-        name = glue("table1-cohort_{cohort}"),
-        run = "r:v2 analysis/table1/table1.R",
-        arguments = c(c(cohort), c(ages)),
-        needs = list(glue("generate_input_{cohort}_clean")),
-        moderately_sensitive = list(
-          table1 = glue(
-            "output/table1/table1-cohort_{cohort}.csv"
-          ),
-          table1_midpoint6 = glue(
-            "output/table1/table1-cohort_{cohort}-midpoint6.csv"
-          )
-        )
-      )
-    )
+    preex_str <- ""
+    arg_vec <- c(c(cohort), c(ages))
   } else {
-    preeex_str <- paste0("-preex_", preex)
-    splice(
-      comment(glue("Generate table1_cohort_{cohort}{preeex_str}")),
-      action(
-        name = glue("table1-cohort_{cohort}{preeex_str}"),
-        run = "r:v2 analysis/table1/table1.R",
-        arguments = c(c(cohort), c(ages), c(preex)),
-        needs = list(glue("generate_input_{cohort}_clean")),
-        moderately_sensitive = list(
-          table1 = glue(
-            "output/table1/table1-cohort_{cohort}{preeex_str}.csv"
-          ),
-          table1_midpoint6 = glue(
-            "output/table1/table1-cohort_{cohort}{preeex_str}-midpoint6.csv"
-          )
+    preex_str <- paste0("-preex_", preex)
+    arg_vec <- c(c(cohort), c(ages), c(preex))
+  }
+  splice(
+    comment(glue("Generate table1_cohort_{cohort}{preex_str}")),
+    action(
+      name = glue("table1-cohort_{cohort}{preex_str}"),
+      run = "r:v2 analysis/table1/table1.R",
+      arguments = arg_vec,
+      needs = list(glue("generate_input_{cohort}_clean")),
+      moderately_sensitive = list(
+        table1 = glue(
+          "output/table1/table1-cohort_{cohort}{preex_str}.csv"
+        ),
+        table1_midpoint6 = glue(
+          "output/table1/table1-cohort_{cohort}{preex_str}-midpoint6.csv"
         )
       )
     )
-  }
+  )
 }
 
 # Create function to make model input and run a model --------------------------
