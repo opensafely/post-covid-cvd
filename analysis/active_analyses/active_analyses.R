@@ -52,8 +52,8 @@ core_covariates <- c(
   "cov_bin_hypertension",
   "cov_bin_diabetes",
   "cov_bin_depression",
-  "cov_bin_copd",
-  "cov_bin_stroke_isch"
+  "cov_bin_copd"
+  # "cov_bin_stroke_isch" # Replaced with 'cov_bin_stroke_all' for this project
 )
 
 project_covariates <- c(
@@ -87,10 +87,7 @@ outcomes <- c(
 
 # Collapse covariates ----
 covariate_other <- paste0(
-  setdiff(
-    c(core_covariates, project_covariates),
-    "cov_bin_stroke_isch"
-  ),
+  c(core_covariates, project_covariates),
   collapse = ";"
 )
 
