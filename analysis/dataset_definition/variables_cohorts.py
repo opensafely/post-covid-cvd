@@ -111,16 +111,16 @@ def generate_variables(index_date, end_date_exp, end_date_out):
     ### Prostate cancer
     qa_bin_prostate_cancer = (
         (last_matching_event_clinical_snomed_before(
-            prostate_cancer_snomed, index_date
+            prostate_cancer_snomed, end_date_out
         ).exists_for_patient()) |
         (last_matching_event_apc_before(
-            prostate_cancer_icd10, index_date
+            prostate_cancer_icd10, end_date_out
         ).exists_for_patient())
     )    
     
     ### Pregnancy
     qa_bin_pregnancy = last_matching_event_clinical_snomed_before(
-        pregnancy_snomed, index_date
+        pregnancy_snomed, end_date_out
     ).exists_for_patient()
 
     ### Year of birth
@@ -128,7 +128,7 @@ def generate_variables(index_date, end_date_exp, end_date_out):
 
     ### COCP or HRT medication
     qa_bin_hrtcocp = last_matching_med_dmd_before(
-        cocp_dmd + hrt_dmd, index_date
+        cocp_dmd + hrt_dmd, end_date_out
     ).exists_for_patient()
 
     ## Outcomes
