@@ -24,7 +24,16 @@ active_analyses <- active_analyses[
 ]
 cohorts <- unique(active_analyses$cohort)
 analyses <- unique(grep("^main", active_analyses$analysis, value = TRUE))
-subgroups <- unique(str_extract(active_analyses$analysis, "^main|sub_[^_]+"))
+subgroups <- c(
+  setdiff(
+    unique(str_extract(active_analyses$analysis, "^main|sub_[^_]+")),
+    c("sub_age", "sub_ethncity")
+  ),
+  unique(active_analyses[grepl("_age_", active_analyses$analysis), ]$analysis),
+  unique(
+    active_analyses[grepl("_ethnicity_", active_analyses$analysis), ]$analysis
+  )
+)
 active_age <- active_analyses[grepl("_age_", active_analyses$name), ]$name
 age_str <- paste0(
   paste0(
@@ -387,10 +396,13 @@ make_other_output <- function(action_name, cohort, subgroup = "") {
         }
       )),
       needs = c(as.list(paste0(
-        action_name,
-        "-cohort_",
+        ifelse(
+          action_name == "flow",
+          "generate_input_",
+          paste0(action_name, "-cohort_")
+        ),
         cohort_names,
-        sub_str
+        ifelse(action_name == "flow", "_clean", sub_str)
       ))),
       moderately_sensitive = setNames(
         list(glue(
@@ -507,6 +519,15 @@ actions_list <- splice(
           )
       ),
       recursive = FALSE
+    )
+  ),
+
+  ## Flow ----------------------------------------------------------------------
+
+  splice(
+    make_other_output(
+      action_name = "flow",
+      cohort = paste0(cohorts, collapse = ";")
     )
   ),
 

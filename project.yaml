@@ -12655,6 +12655,18 @@ actions:
       moderately_sensitive:
         model_output: output/model/model_output-cohort_vax-sub_vte_TRUE-vte.csv
 
+  ## Generate make-flow-output 
+
+  make-flow-output:
+    run: r:v2 analysis/make_output/make_other_output.R flow prevax;unvax;vax
+    needs:
+    - generate_input_prevax_clean
+    - generate_input_unvax_clean
+    - generate_input_vax_clean
+    outputs:
+      moderately_sensitive:
+        flow_output_midpoint6: output/make_output/flow_output_midpoint6.csv
+
   ## Generate table2-cohort_prevax-sub_covidhospital 
 
   table2-cohort_prevax-sub_covidhospital:
@@ -12901,136 +12913,6 @@ actions:
       moderately_sensitive:
         model_output: output/make_output/model_output-main.csv
         model_output_midpoint6: output/make_output/model_output-main-midpoint6.csv
-
-  ## Generate model_output-sub_age 
-
-  make_model_output-sub_age:
-    run: r:v2 analysis/make_output/make_model_output.R sub_age
-    needs:
-    - cox_ipw-cohort_prevax-sub_age_18_39-ami
-    - cox_ipw-cohort_prevax-sub_age_18_39-angina
-    - cox_ipw-cohort_prevax-sub_age_18_39-ate
-    - cox_ipw-cohort_prevax-sub_age_18_39-dvt
-    - cox_ipw-cohort_prevax-sub_age_18_39-hf
-    - cox_ipw-cohort_prevax-sub_age_18_39-pe
-    - cox_ipw-cohort_prevax-sub_age_18_39-stroke_isch
-    - cox_ipw-cohort_prevax-sub_age_18_39-stroke_sahhs
-    - cox_ipw-cohort_prevax-sub_age_18_39-tia
-    - cox_ipw-cohort_prevax-sub_age_18_39-vte
-    - cox_ipw-cohort_unvax-sub_age_18_39-ami
-    - cox_ipw-cohort_unvax-sub_age_18_39-angina
-    - cox_ipw-cohort_unvax-sub_age_18_39-ate
-    - cox_ipw-cohort_unvax-sub_age_18_39-dvt
-    - cox_ipw-cohort_unvax-sub_age_18_39-hf
-    - cox_ipw-cohort_unvax-sub_age_18_39-pe
-    - cox_ipw-cohort_unvax-sub_age_18_39-stroke_isch
-    - cox_ipw-cohort_unvax-sub_age_18_39-stroke_sahhs
-    - cox_ipw-cohort_unvax-sub_age_18_39-tia
-    - cox_ipw-cohort_unvax-sub_age_18_39-vte
-    - cox_ipw-cohort_vax-sub_age_18_39-ami
-    - cox_ipw-cohort_vax-sub_age_18_39-angina
-    - cox_ipw-cohort_vax-sub_age_18_39-ate
-    - cox_ipw-cohort_vax-sub_age_18_39-dvt
-    - cox_ipw-cohort_vax-sub_age_18_39-hf
-    - cox_ipw-cohort_vax-sub_age_18_39-pe
-    - cox_ipw-cohort_vax-sub_age_18_39-stroke_isch
-    - cox_ipw-cohort_vax-sub_age_18_39-stroke_sahhs
-    - cox_ipw-cohort_vax-sub_age_18_39-tia
-    - cox_ipw-cohort_vax-sub_age_18_39-vte
-    - cox_ipw-cohort_prevax-sub_age_40_59-ami
-    - cox_ipw-cohort_prevax-sub_age_40_59-angina
-    - cox_ipw-cohort_prevax-sub_age_40_59-ate
-    - cox_ipw-cohort_prevax-sub_age_40_59-dvt
-    - cox_ipw-cohort_prevax-sub_age_40_59-hf
-    - cox_ipw-cohort_prevax-sub_age_40_59-pe
-    - cox_ipw-cohort_prevax-sub_age_40_59-stroke_isch
-    - cox_ipw-cohort_prevax-sub_age_40_59-stroke_sahhs
-    - cox_ipw-cohort_prevax-sub_age_40_59-tia
-    - cox_ipw-cohort_prevax-sub_age_40_59-vte
-    - cox_ipw-cohort_unvax-sub_age_40_59-ami
-    - cox_ipw-cohort_unvax-sub_age_40_59-angina
-    - cox_ipw-cohort_unvax-sub_age_40_59-ate
-    - cox_ipw-cohort_unvax-sub_age_40_59-dvt
-    - cox_ipw-cohort_unvax-sub_age_40_59-hf
-    - cox_ipw-cohort_unvax-sub_age_40_59-pe
-    - cox_ipw-cohort_unvax-sub_age_40_59-stroke_isch
-    - cox_ipw-cohort_unvax-sub_age_40_59-stroke_sahhs
-    - cox_ipw-cohort_unvax-sub_age_40_59-tia
-    - cox_ipw-cohort_unvax-sub_age_40_59-vte
-    - cox_ipw-cohort_vax-sub_age_40_59-ami
-    - cox_ipw-cohort_vax-sub_age_40_59-angina
-    - cox_ipw-cohort_vax-sub_age_40_59-ate
-    - cox_ipw-cohort_vax-sub_age_40_59-dvt
-    - cox_ipw-cohort_vax-sub_age_40_59-hf
-    - cox_ipw-cohort_vax-sub_age_40_59-pe
-    - cox_ipw-cohort_vax-sub_age_40_59-stroke_isch
-    - cox_ipw-cohort_vax-sub_age_40_59-stroke_sahhs
-    - cox_ipw-cohort_vax-sub_age_40_59-tia
-    - cox_ipw-cohort_vax-sub_age_40_59-vte
-    - cox_ipw-cohort_prevax-sub_age_60_79-ami
-    - cox_ipw-cohort_prevax-sub_age_60_79-angina
-    - cox_ipw-cohort_prevax-sub_age_60_79-ate
-    - cox_ipw-cohort_prevax-sub_age_60_79-dvt
-    - cox_ipw-cohort_prevax-sub_age_60_79-hf
-    - cox_ipw-cohort_prevax-sub_age_60_79-pe
-    - cox_ipw-cohort_prevax-sub_age_60_79-stroke_isch
-    - cox_ipw-cohort_prevax-sub_age_60_79-stroke_sahhs
-    - cox_ipw-cohort_prevax-sub_age_60_79-tia
-    - cox_ipw-cohort_prevax-sub_age_60_79-vte
-    - cox_ipw-cohort_unvax-sub_age_60_79-ami
-    - cox_ipw-cohort_unvax-sub_age_60_79-angina
-    - cox_ipw-cohort_unvax-sub_age_60_79-ate
-    - cox_ipw-cohort_unvax-sub_age_60_79-dvt
-    - cox_ipw-cohort_unvax-sub_age_60_79-hf
-    - cox_ipw-cohort_unvax-sub_age_60_79-pe
-    - cox_ipw-cohort_unvax-sub_age_60_79-stroke_isch
-    - cox_ipw-cohort_unvax-sub_age_60_79-stroke_sahhs
-    - cox_ipw-cohort_unvax-sub_age_60_79-tia
-    - cox_ipw-cohort_unvax-sub_age_60_79-vte
-    - cox_ipw-cohort_vax-sub_age_60_79-ami
-    - cox_ipw-cohort_vax-sub_age_60_79-angina
-    - cox_ipw-cohort_vax-sub_age_60_79-ate
-    - cox_ipw-cohort_vax-sub_age_60_79-dvt
-    - cox_ipw-cohort_vax-sub_age_60_79-hf
-    - cox_ipw-cohort_vax-sub_age_60_79-pe
-    - cox_ipw-cohort_vax-sub_age_60_79-stroke_isch
-    - cox_ipw-cohort_vax-sub_age_60_79-stroke_sahhs
-    - cox_ipw-cohort_vax-sub_age_60_79-tia
-    - cox_ipw-cohort_vax-sub_age_60_79-vte
-    - cox_ipw-cohort_prevax-sub_age_80_110-ami
-    - cox_ipw-cohort_prevax-sub_age_80_110-angina
-    - cox_ipw-cohort_prevax-sub_age_80_110-ate
-    - cox_ipw-cohort_prevax-sub_age_80_110-dvt
-    - cox_ipw-cohort_prevax-sub_age_80_110-hf
-    - cox_ipw-cohort_prevax-sub_age_80_110-pe
-    - cox_ipw-cohort_prevax-sub_age_80_110-stroke_isch
-    - cox_ipw-cohort_prevax-sub_age_80_110-stroke_sahhs
-    - cox_ipw-cohort_prevax-sub_age_80_110-tia
-    - cox_ipw-cohort_prevax-sub_age_80_110-vte
-    - cox_ipw-cohort_unvax-sub_age_80_110-ami
-    - cox_ipw-cohort_unvax-sub_age_80_110-angina
-    - cox_ipw-cohort_unvax-sub_age_80_110-ate
-    - cox_ipw-cohort_unvax-sub_age_80_110-dvt
-    - cox_ipw-cohort_unvax-sub_age_80_110-hf
-    - cox_ipw-cohort_unvax-sub_age_80_110-pe
-    - cox_ipw-cohort_unvax-sub_age_80_110-stroke_isch
-    - cox_ipw-cohort_unvax-sub_age_80_110-stroke_sahhs
-    - cox_ipw-cohort_unvax-sub_age_80_110-tia
-    - cox_ipw-cohort_unvax-sub_age_80_110-vte
-    - cox_ipw-cohort_vax-sub_age_80_110-ami
-    - cox_ipw-cohort_vax-sub_age_80_110-angina
-    - cox_ipw-cohort_vax-sub_age_80_110-ate
-    - cox_ipw-cohort_vax-sub_age_80_110-dvt
-    - cox_ipw-cohort_vax-sub_age_80_110-hf
-    - cox_ipw-cohort_vax-sub_age_80_110-pe
-    - cox_ipw-cohort_vax-sub_age_80_110-stroke_isch
-    - cox_ipw-cohort_vax-sub_age_80_110-stroke_sahhs
-    - cox_ipw-cohort_vax-sub_age_80_110-tia
-    - cox_ipw-cohort_vax-sub_age_80_110-vte
-    outputs:
-      moderately_sensitive:
-        model_output: output/make_output/model_output-sub_age.csv
-        model_output_midpoint6: output/make_output/model_output-sub_age-midpoint6.csv
 
   ## Generate model_output-sub_ate 
 
@@ -13501,6 +13383,366 @@ actions:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_vte.csv
         model_output_midpoint6: output/make_output/model_output-sub_vte-midpoint6.csv
+
+  ## Generate model_output-sub_age_18_39 
+
+  make_model_output-sub_age_18_39:
+    run: r:v2 analysis/make_output/make_model_output.R sub_age_18_39
+    needs:
+    - cox_ipw-cohort_prevax-sub_age_18_39-ami
+    - cox_ipw-cohort_prevax-sub_age_18_39-angina
+    - cox_ipw-cohort_prevax-sub_age_18_39-ate
+    - cox_ipw-cohort_prevax-sub_age_18_39-dvt
+    - cox_ipw-cohort_prevax-sub_age_18_39-hf
+    - cox_ipw-cohort_prevax-sub_age_18_39-pe
+    - cox_ipw-cohort_prevax-sub_age_18_39-stroke_isch
+    - cox_ipw-cohort_prevax-sub_age_18_39-stroke_sahhs
+    - cox_ipw-cohort_prevax-sub_age_18_39-tia
+    - cox_ipw-cohort_prevax-sub_age_18_39-vte
+    - cox_ipw-cohort_unvax-sub_age_18_39-ami
+    - cox_ipw-cohort_unvax-sub_age_18_39-angina
+    - cox_ipw-cohort_unvax-sub_age_18_39-ate
+    - cox_ipw-cohort_unvax-sub_age_18_39-dvt
+    - cox_ipw-cohort_unvax-sub_age_18_39-hf
+    - cox_ipw-cohort_unvax-sub_age_18_39-pe
+    - cox_ipw-cohort_unvax-sub_age_18_39-stroke_isch
+    - cox_ipw-cohort_unvax-sub_age_18_39-stroke_sahhs
+    - cox_ipw-cohort_unvax-sub_age_18_39-tia
+    - cox_ipw-cohort_unvax-sub_age_18_39-vte
+    - cox_ipw-cohort_vax-sub_age_18_39-ami
+    - cox_ipw-cohort_vax-sub_age_18_39-angina
+    - cox_ipw-cohort_vax-sub_age_18_39-ate
+    - cox_ipw-cohort_vax-sub_age_18_39-dvt
+    - cox_ipw-cohort_vax-sub_age_18_39-hf
+    - cox_ipw-cohort_vax-sub_age_18_39-pe
+    - cox_ipw-cohort_vax-sub_age_18_39-stroke_isch
+    - cox_ipw-cohort_vax-sub_age_18_39-stroke_sahhs
+    - cox_ipw-cohort_vax-sub_age_18_39-tia
+    - cox_ipw-cohort_vax-sub_age_18_39-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/make_output/model_output-sub_age_18_39.csv
+        model_output_midpoint6: output/make_output/model_output-sub_age_18_39-midpoint6.csv
+
+  ## Generate model_output-sub_age_40_59 
+
+  make_model_output-sub_age_40_59:
+    run: r:v2 analysis/make_output/make_model_output.R sub_age_40_59
+    needs:
+    - cox_ipw-cohort_prevax-sub_age_40_59-ami
+    - cox_ipw-cohort_prevax-sub_age_40_59-angina
+    - cox_ipw-cohort_prevax-sub_age_40_59-ate
+    - cox_ipw-cohort_prevax-sub_age_40_59-dvt
+    - cox_ipw-cohort_prevax-sub_age_40_59-hf
+    - cox_ipw-cohort_prevax-sub_age_40_59-pe
+    - cox_ipw-cohort_prevax-sub_age_40_59-stroke_isch
+    - cox_ipw-cohort_prevax-sub_age_40_59-stroke_sahhs
+    - cox_ipw-cohort_prevax-sub_age_40_59-tia
+    - cox_ipw-cohort_prevax-sub_age_40_59-vte
+    - cox_ipw-cohort_unvax-sub_age_40_59-ami
+    - cox_ipw-cohort_unvax-sub_age_40_59-angina
+    - cox_ipw-cohort_unvax-sub_age_40_59-ate
+    - cox_ipw-cohort_unvax-sub_age_40_59-dvt
+    - cox_ipw-cohort_unvax-sub_age_40_59-hf
+    - cox_ipw-cohort_unvax-sub_age_40_59-pe
+    - cox_ipw-cohort_unvax-sub_age_40_59-stroke_isch
+    - cox_ipw-cohort_unvax-sub_age_40_59-stroke_sahhs
+    - cox_ipw-cohort_unvax-sub_age_40_59-tia
+    - cox_ipw-cohort_unvax-sub_age_40_59-vte
+    - cox_ipw-cohort_vax-sub_age_40_59-ami
+    - cox_ipw-cohort_vax-sub_age_40_59-angina
+    - cox_ipw-cohort_vax-sub_age_40_59-ate
+    - cox_ipw-cohort_vax-sub_age_40_59-dvt
+    - cox_ipw-cohort_vax-sub_age_40_59-hf
+    - cox_ipw-cohort_vax-sub_age_40_59-pe
+    - cox_ipw-cohort_vax-sub_age_40_59-stroke_isch
+    - cox_ipw-cohort_vax-sub_age_40_59-stroke_sahhs
+    - cox_ipw-cohort_vax-sub_age_40_59-tia
+    - cox_ipw-cohort_vax-sub_age_40_59-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/make_output/model_output-sub_age_40_59.csv
+        model_output_midpoint6: output/make_output/model_output-sub_age_40_59-midpoint6.csv
+
+  ## Generate model_output-sub_age_60_79 
+
+  make_model_output-sub_age_60_79:
+    run: r:v2 analysis/make_output/make_model_output.R sub_age_60_79
+    needs:
+    - cox_ipw-cohort_prevax-sub_age_60_79-ami
+    - cox_ipw-cohort_prevax-sub_age_60_79-angina
+    - cox_ipw-cohort_prevax-sub_age_60_79-ate
+    - cox_ipw-cohort_prevax-sub_age_60_79-dvt
+    - cox_ipw-cohort_prevax-sub_age_60_79-hf
+    - cox_ipw-cohort_prevax-sub_age_60_79-pe
+    - cox_ipw-cohort_prevax-sub_age_60_79-stroke_isch
+    - cox_ipw-cohort_prevax-sub_age_60_79-stroke_sahhs
+    - cox_ipw-cohort_prevax-sub_age_60_79-tia
+    - cox_ipw-cohort_prevax-sub_age_60_79-vte
+    - cox_ipw-cohort_unvax-sub_age_60_79-ami
+    - cox_ipw-cohort_unvax-sub_age_60_79-angina
+    - cox_ipw-cohort_unvax-sub_age_60_79-ate
+    - cox_ipw-cohort_unvax-sub_age_60_79-dvt
+    - cox_ipw-cohort_unvax-sub_age_60_79-hf
+    - cox_ipw-cohort_unvax-sub_age_60_79-pe
+    - cox_ipw-cohort_unvax-sub_age_60_79-stroke_isch
+    - cox_ipw-cohort_unvax-sub_age_60_79-stroke_sahhs
+    - cox_ipw-cohort_unvax-sub_age_60_79-tia
+    - cox_ipw-cohort_unvax-sub_age_60_79-vte
+    - cox_ipw-cohort_vax-sub_age_60_79-ami
+    - cox_ipw-cohort_vax-sub_age_60_79-angina
+    - cox_ipw-cohort_vax-sub_age_60_79-ate
+    - cox_ipw-cohort_vax-sub_age_60_79-dvt
+    - cox_ipw-cohort_vax-sub_age_60_79-hf
+    - cox_ipw-cohort_vax-sub_age_60_79-pe
+    - cox_ipw-cohort_vax-sub_age_60_79-stroke_isch
+    - cox_ipw-cohort_vax-sub_age_60_79-stroke_sahhs
+    - cox_ipw-cohort_vax-sub_age_60_79-tia
+    - cox_ipw-cohort_vax-sub_age_60_79-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/make_output/model_output-sub_age_60_79.csv
+        model_output_midpoint6: output/make_output/model_output-sub_age_60_79-midpoint6.csv
+
+  ## Generate model_output-sub_age_80_110 
+
+  make_model_output-sub_age_80_110:
+    run: r:v2 analysis/make_output/make_model_output.R sub_age_80_110
+    needs:
+    - cox_ipw-cohort_prevax-sub_age_80_110-ami
+    - cox_ipw-cohort_prevax-sub_age_80_110-angina
+    - cox_ipw-cohort_prevax-sub_age_80_110-ate
+    - cox_ipw-cohort_prevax-sub_age_80_110-dvt
+    - cox_ipw-cohort_prevax-sub_age_80_110-hf
+    - cox_ipw-cohort_prevax-sub_age_80_110-pe
+    - cox_ipw-cohort_prevax-sub_age_80_110-stroke_isch
+    - cox_ipw-cohort_prevax-sub_age_80_110-stroke_sahhs
+    - cox_ipw-cohort_prevax-sub_age_80_110-tia
+    - cox_ipw-cohort_prevax-sub_age_80_110-vte
+    - cox_ipw-cohort_unvax-sub_age_80_110-ami
+    - cox_ipw-cohort_unvax-sub_age_80_110-angina
+    - cox_ipw-cohort_unvax-sub_age_80_110-ate
+    - cox_ipw-cohort_unvax-sub_age_80_110-dvt
+    - cox_ipw-cohort_unvax-sub_age_80_110-hf
+    - cox_ipw-cohort_unvax-sub_age_80_110-pe
+    - cox_ipw-cohort_unvax-sub_age_80_110-stroke_isch
+    - cox_ipw-cohort_unvax-sub_age_80_110-stroke_sahhs
+    - cox_ipw-cohort_unvax-sub_age_80_110-tia
+    - cox_ipw-cohort_unvax-sub_age_80_110-vte
+    - cox_ipw-cohort_vax-sub_age_80_110-ami
+    - cox_ipw-cohort_vax-sub_age_80_110-angina
+    - cox_ipw-cohort_vax-sub_age_80_110-ate
+    - cox_ipw-cohort_vax-sub_age_80_110-dvt
+    - cox_ipw-cohort_vax-sub_age_80_110-hf
+    - cox_ipw-cohort_vax-sub_age_80_110-pe
+    - cox_ipw-cohort_vax-sub_age_80_110-stroke_isch
+    - cox_ipw-cohort_vax-sub_age_80_110-stroke_sahhs
+    - cox_ipw-cohort_vax-sub_age_80_110-tia
+    - cox_ipw-cohort_vax-sub_age_80_110-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/make_output/model_output-sub_age_80_110.csv
+        model_output_midpoint6: output/make_output/model_output-sub_age_80_110-midpoint6.csv
+
+  ## Generate model_output-sub_ethnicity_asian 
+
+  make_model_output-sub_ethnicity_asian:
+    run: r:v2 analysis/make_output/make_model_output.R sub_ethnicity_asian
+    needs:
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-ami
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-angina
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-ate
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-dvt
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-hf
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-pe
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-stroke_isch
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-stroke_sahhs
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-tia
+    - cox_ipw-cohort_prevax-sub_ethnicity_asian-vte
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-ami
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-angina
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-ate
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-dvt
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-hf
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-pe
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-stroke_isch
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-stroke_sahhs
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-tia
+    - cox_ipw-cohort_unvax-sub_ethnicity_asian-vte
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-ami
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-angina
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-ate
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-dvt
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-hf
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-pe
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-stroke_isch
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-stroke_sahhs
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-tia
+    - cox_ipw-cohort_vax-sub_ethnicity_asian-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/make_output/model_output-sub_ethnicity_asian.csv
+        model_output_midpoint6: output/make_output/model_output-sub_ethnicity_asian-midpoint6.csv
+
+  ## Generate model_output-sub_ethnicity_black 
+
+  make_model_output-sub_ethnicity_black:
+    run: r:v2 analysis/make_output/make_model_output.R sub_ethnicity_black
+    needs:
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-ami
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-angina
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-ate
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-dvt
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-hf
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-pe
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-stroke_isch
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-stroke_sahhs
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-tia
+    - cox_ipw-cohort_prevax-sub_ethnicity_black-vte
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-ami
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-angina
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-ate
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-dvt
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-hf
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-pe
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-stroke_isch
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-stroke_sahhs
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-tia
+    - cox_ipw-cohort_unvax-sub_ethnicity_black-vte
+    - cox_ipw-cohort_vax-sub_ethnicity_black-ami
+    - cox_ipw-cohort_vax-sub_ethnicity_black-angina
+    - cox_ipw-cohort_vax-sub_ethnicity_black-ate
+    - cox_ipw-cohort_vax-sub_ethnicity_black-dvt
+    - cox_ipw-cohort_vax-sub_ethnicity_black-hf
+    - cox_ipw-cohort_vax-sub_ethnicity_black-pe
+    - cox_ipw-cohort_vax-sub_ethnicity_black-stroke_isch
+    - cox_ipw-cohort_vax-sub_ethnicity_black-stroke_sahhs
+    - cox_ipw-cohort_vax-sub_ethnicity_black-tia
+    - cox_ipw-cohort_vax-sub_ethnicity_black-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/make_output/model_output-sub_ethnicity_black.csv
+        model_output_midpoint6: output/make_output/model_output-sub_ethnicity_black-midpoint6.csv
+
+  ## Generate model_output-sub_ethnicity_mixed 
+
+  make_model_output-sub_ethnicity_mixed:
+    run: r:v2 analysis/make_output/make_model_output.R sub_ethnicity_mixed
+    needs:
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-ami
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-angina
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-ate
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-dvt
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-hf
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-pe
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-stroke_isch
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-stroke_sahhs
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-tia
+    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-vte
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-ami
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-angina
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-ate
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-dvt
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-hf
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-pe
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-stroke_isch
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-stroke_sahhs
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-tia
+    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-vte
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-ami
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-angina
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-ate
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-dvt
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-hf
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-pe
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-stroke_isch
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-stroke_sahhs
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-tia
+    - cox_ipw-cohort_vax-sub_ethnicity_mixed-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/make_output/model_output-sub_ethnicity_mixed.csv
+        model_output_midpoint6: output/make_output/model_output-sub_ethnicity_mixed-midpoint6.csv
+
+  ## Generate model_output-sub_ethnicity_other 
+
+  make_model_output-sub_ethnicity_other:
+    run: r:v2 analysis/make_output/make_model_output.R sub_ethnicity_other
+    needs:
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-ami
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-angina
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-ate
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-dvt
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-hf
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-pe
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-stroke_isch
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-stroke_sahhs
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-tia
+    - cox_ipw-cohort_prevax-sub_ethnicity_other-vte
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-ami
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-angina
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-ate
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-dvt
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-hf
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-pe
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-stroke_isch
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-stroke_sahhs
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-tia
+    - cox_ipw-cohort_unvax-sub_ethnicity_other-vte
+    - cox_ipw-cohort_vax-sub_ethnicity_other-ami
+    - cox_ipw-cohort_vax-sub_ethnicity_other-angina
+    - cox_ipw-cohort_vax-sub_ethnicity_other-ate
+    - cox_ipw-cohort_vax-sub_ethnicity_other-dvt
+    - cox_ipw-cohort_vax-sub_ethnicity_other-hf
+    - cox_ipw-cohort_vax-sub_ethnicity_other-pe
+    - cox_ipw-cohort_vax-sub_ethnicity_other-stroke_isch
+    - cox_ipw-cohort_vax-sub_ethnicity_other-stroke_sahhs
+    - cox_ipw-cohort_vax-sub_ethnicity_other-tia
+    - cox_ipw-cohort_vax-sub_ethnicity_other-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/make_output/model_output-sub_ethnicity_other.csv
+        model_output_midpoint6: output/make_output/model_output-sub_ethnicity_other-midpoint6.csv
+
+  ## Generate model_output-sub_ethnicity_white 
+
+  make_model_output-sub_ethnicity_white:
+    run: r:v2 analysis/make_output/make_model_output.R sub_ethnicity_white
+    needs:
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-ami
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-angina
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-ate
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-dvt
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-hf
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-pe
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-stroke_isch
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-stroke_sahhs
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-tia
+    - cox_ipw-cohort_prevax-sub_ethnicity_white-vte
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-ami
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-angina
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-ate
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-dvt
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-hf
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-pe
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-stroke_isch
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-stroke_sahhs
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-tia
+    - cox_ipw-cohort_unvax-sub_ethnicity_white-vte
+    - cox_ipw-cohort_vax-sub_ethnicity_white-ami
+    - cox_ipw-cohort_vax-sub_ethnicity_white-angina
+    - cox_ipw-cohort_vax-sub_ethnicity_white-ate
+    - cox_ipw-cohort_vax-sub_ethnicity_white-dvt
+    - cox_ipw-cohort_vax-sub_ethnicity_white-hf
+    - cox_ipw-cohort_vax-sub_ethnicity_white-pe
+    - cox_ipw-cohort_vax-sub_ethnicity_white-stroke_isch
+    - cox_ipw-cohort_vax-sub_ethnicity_white-stroke_sahhs
+    - cox_ipw-cohort_vax-sub_ethnicity_white-tia
+    - cox_ipw-cohort_vax-sub_ethnicity_white-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/make_output/model_output-sub_ethnicity_white.csv
+        model_output_midpoint6: output/make_output/model_output-sub_ethnicity_white-midpoint6.csv
 
   ## Make absolute excess risk (AER) input 
 
