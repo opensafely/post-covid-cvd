@@ -129,28 +129,66 @@ for (j in cohorts) {
 
     # Add subgroup analyses ----
     for (sub in subgroups) {
-      # Skip sub_covidhistory if cohort is "prevax"
-      if (sub == "sub_covidhistory" && j == "prevax") {
-        next
-      }
+      if (
+        ((sub %in%
+          c("sub_covidhospital_TRUE", "sub_covidhospital_FALSE")) |
+          (!(sub %in%
+            c(
+              "sub_covidhospital_TRUE",
+              "sub_covidhospital_FALSE",
+              "sub_ate_TRUE",
+              "sub_ate_FALSE",
+              "sub_vte_TRUE",
+              "sub_vte_FALSE"
+            )) &
+            (k %in% c("out_date_ate", "out_date_vte"))) |
+          (sub %in% c("sub_ate_TRUE", "sub_ate_FALSE") & k == "out_date_ate") |
+          (sub %in% c("sub_vte_TRUE", "sub_vte_FALSE") & k == "out_date_vte"))
+      ) {
+        # Skip sub_covidhistory if cohort is "prevax"
+        if (sub == "sub_covidhistory" && j == "prevax") {
+          next
+        }
 
-      # Adjust covariate_other for ethnicity subgroups
-      adjusted_covariate_other <- covariate_other
-      if (grepl("sub_ethnicity", sub)) {
-        adjusted_covariate_other <- paste0(
-          setdiff(strsplit(covariate_other, ";")[[1]], "cov_cat_ethnicity"),
-          collapse = ";"
+        # Adjust covariate_other for ethnicity subgroups
+        adjusted_covariate_other <- covariate_other
+        if (grepl("sub_ethnicity", sub)) {
+          adjusted_covariate_other <- paste0(
+            setdiff(strsplit(covariate_other, ";")[[1]], "cov_cat_ethnicity"),
+            collapse = ";"
+          )
+        }
+
+        # Adjust covariate_other for vte subgroups
+        adjusted_covariate_other <- covariate_other
+        if (grepl("sub_vte", sub)) {
+          adjusted_covariate_other <- paste0(
+            setdiff(strsplit(covariate_other, ";")[[1]], "cov_bin_vte"),
+            collapse = ";"
+          )
+        }
+
+        # Adjust covariate_other for ate subgroups
+        adjusted_covariate_other <- covariate_other
+        if (grepl("sub_ate_FALSE", sub)) {
+          adjusted_covariate_other <- paste0(
+            setdiff(
+              strsplit(covariate_other, ";")[[1]],
+              c("cov_bin_ami", "cov_bin_other_ae")
+            ),
+            collapse = ";"
+          )
+        }
+
+        # Add analysis for the subgroup
+        df[nrow(df) + 1, ] <- add_analysis(
+          cohort = j,
+          outcome = k,
+          analysis_name = sub,
+          covariate_other = adjusted_covariate_other,
+          age_spline = ifelse(grepl("sub_age", sub), FALSE, TRUE)
         )
       }
-
-      # Add analysis for the subgroup
-      df[nrow(df) + 1, ] <- add_analysis(
-        cohort = j,
-        outcome = k,
-        analysis_name = sub,
-        covariate_other = adjusted_covariate_other,
-        age_spline = ifelse(grepl("sub_age", sub), FALSE, TRUE)
-      )
     }
   }
 }
