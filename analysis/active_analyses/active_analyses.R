@@ -159,6 +159,27 @@ for (j in cohorts) {
           )
         }
 
+        # Adjust covariate_other for vte subgroups
+        adjusted_covariate_other <- covariate_other
+        if (grepl("sub_vte", sub)) {
+          adjusted_covariate_other <- paste0(
+            setdiff(strsplit(covariate_other, ";")[[1]], "cov_bin_vte"),
+            collapse = ";"
+          )
+        }
+
+        # Adjust covariate_other for ate subgroups
+        adjusted_covariate_other <- covariate_other
+        if (grepl("sub_ate_FALSE", sub)) {
+          adjusted_covariate_other <- paste0(
+            setdiff(
+              strsplit(covariate_other, ";")[[1]],
+              c("cov_bin_ami", "cov_bin_other_ae")
+            ),
+            collapse = ";"
+          )
+        }
+
         # Add analysis for the subgroup
         df[nrow(df) + 1, ] <- add_analysis(
           cohort = j,
