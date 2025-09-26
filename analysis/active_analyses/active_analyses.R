@@ -193,6 +193,15 @@ for (j in cohorts) {
   }
 }
 
+# Test analysis ----
+
+tmp <- df[
+  df$cohort == "prevax" & df$analysis == "main" & df$outcome == "out_date_ami",
+]
+tmp$analysis <- "noday0"
+tmp$cut_points <- gsub("1;", "", tmp$cut_points)
+df[nrow(df) + 1, ] <- tmp
+
 # Add name for each analysis ----
 df$name <- paste0(
   "cohort_",

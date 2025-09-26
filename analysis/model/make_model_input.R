@@ -189,6 +189,13 @@ if (grepl("sub_vte_", analysis)) {
   df <- df[df$cov_bin_vte == vte, ]
 }
 
+if (grepl("noday0", analysis)) {
+  check_for_subgroup <- TRUE
+  df <- df[
+    is.na(df$exp_date) | is.na(df$out_date) | df$exp_date != df$out_date,
+  ]
+}
+
 # Stop code if no subgroup/main analysis was correctly selected
 if (isFALSE(check_for_subgroup)) {
   stop(paste0("Input: ", name, " did not undergo any subgroup filtering!"))

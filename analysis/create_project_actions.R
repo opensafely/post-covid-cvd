@@ -34,6 +34,7 @@ subgroups <- c(
     active_analyses[grepl("_ethnicity_", active_analyses$analysis), ]$analysis
   )
 )
+subgroups <- setdiff(subgroups,NA)
 active_age <- active_analyses[grepl("_age_", active_analyses$name), ]$name
 age_str <- paste0(
   paste0(
