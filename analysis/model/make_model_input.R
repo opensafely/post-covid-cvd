@@ -189,6 +189,7 @@ if (grepl("sub_vte_", analysis)) {
   df <- df[df$cov_bin_vte == vte, ]
 }
 
+# Make model input: noday0 -----------------------------------------------------
 if (grepl("noday0", analysis)) {
   check_for_subgroup <- TRUE
   df <- df[
