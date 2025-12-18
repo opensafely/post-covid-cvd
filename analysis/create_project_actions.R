@@ -34,7 +34,7 @@ subgroups <- c(
     active_analyses[grepl("_ethnicity_", active_analyses$analysis), ]$analysis
   )
 )
-subgroups <- setdiff(subgroups,NA)
+subgroups <- setdiff(subgroups, NA)
 active_age <- active_analyses[grepl("_age_", active_analyses$name), ]$name
 age_str <- paste0(
   paste0(
@@ -53,6 +53,21 @@ describe <- FALSE # This prints descriptive files for each dataset in the pipeli
 # List of models excluded from model output generation
 
 excluded_models <- c()
+
+# List of models to be run in Stata
+
+stata_models <- c(
+  "cohort_unvax-main-pe",
+  "cohort_vax-sub_covidhistory-ate",
+  "cohort_prevax-sub_covidhospital_TRUE-pe",
+  "cohort_prevax-sub_covidhospital_TRUE-vte",
+  "cohort_unvax-sub_covidhospital_FALSE-ate",
+  "cohort_unvax-sub_covidhospital_TRUE-dvt",
+  "cohort_unvax-sub_covidhospital_TRUE-vte",
+  "cohort_vax-sub_covidhospital_FALSE-pe",
+  "cohort_vax-sub_covidhospital_TRUE-pe",
+  "cohort_vax-sub_covidhospital_TRUE-vte"
+)
 
 # Create generic action function -----------------------------------------------
 
