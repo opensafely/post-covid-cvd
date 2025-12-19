@@ -418,11 +418,31 @@ make_model_output <- function(subgroup) {
       needs = as.list(c(
         paste0(
           "cox_ipw-",
-          active_analyses$name[
-            !(active_analyses$name %in% excluded_models) &
-              str_detect(active_analyses$analysis, subgroup)
-          ]
-        )
+          setdiff(
+            active_analyses$name[str_detect(
+              active_analyses$analysis,
+              subgroup
+            )],
+            c(stata$name, excluded_models)
+          )
+        ),
+        if (
+          length(stata_models) > 0 &&
+            any(str_detect(stata$analysis, subgroup))
+        ) {
+          paste0(
+            "stata_cox_ipw-",
+            setdiff(
+              stata$name[str_detect(
+                stata$analysis,
+                subgroup
+              )],
+              excluded_models
+            )
+          )
+        } else {
+          character(0)
+        }
       )),
       moderately_sensitive = list(
         model_output = glue("output/make_output/model_output-{subgroup}.csv"),

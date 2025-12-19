@@ -4560,7 +4560,6 @@ actions:
     - cox_ipw-cohort_unvax-main-ate
     - cox_ipw-cohort_unvax-main-dvt
     - cox_ipw-cohort_unvax-main-hf
-    - cox_ipw-cohort_unvax-main-pe
     - cox_ipw-cohort_unvax-main-stroke_isch
     - cox_ipw-cohort_unvax-main-stroke_sahhs
     - cox_ipw-cohort_unvax-main-tia
@@ -4570,11 +4569,12 @@ actions:
     - cox_ipw-cohort_vax-main-ate
     - cox_ipw-cohort_vax-main-dvt
     - cox_ipw-cohort_vax-main-hf
-    - cox_ipw-cohort_vax-main-pe
     - cox_ipw-cohort_vax-main-stroke_isch
     - cox_ipw-cohort_vax-main-stroke_sahhs
     - cox_ipw-cohort_vax-main-tia
     - cox_ipw-cohort_vax-main-vte
+    - stata_cox_ipw-cohort_unvax-main-pe
+    - stata_cox_ipw-cohort_vax-main-pe
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-main.csv
@@ -4603,8 +4603,8 @@ actions:
     needs:
     - cox_ipw-cohort_unvax-sub_covidhistory-ate
     - cox_ipw-cohort_unvax-sub_covidhistory-vte
-    - cox_ipw-cohort_vax-sub_covidhistory-ate
     - cox_ipw-cohort_vax-sub_covidhistory-vte
+    - stata_cox_ipw-cohort_vax-sub_covidhistory-ate
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_covidhistory.csv
@@ -4627,7 +4627,6 @@ actions:
     - cox_ipw-cohort_prevax-sub_covidhospital_FALSE-vte
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-ami
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-angina
-    - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-ate
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-dvt
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-hf
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-pe
@@ -4640,7 +4639,6 @@ actions:
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-ate
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-dvt
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-hf
-    - cox_ipw-cohort_vax-sub_covidhospital_FALSE-pe
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-stroke_isch
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-stroke_sahhs
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-tia
@@ -4650,31 +4648,33 @@ actions:
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-ate
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-dvt
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-hf
-    - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-pe
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-stroke_isch
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-stroke_sahhs
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-tia
-    - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-vte
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-ami
-    - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-angina
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-ate
-    - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-dvt
-    - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-hf
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-pe
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-stroke_isch
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-stroke_sahhs
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-tia
-    - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-vte
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-ami
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-angina
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-ate
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-dvt
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-hf
-    - cox_ipw-cohort_vax-sub_covidhospital_TRUE-pe
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-stroke_isch
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-stroke_sahhs
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-tia
-    - cox_ipw-cohort_vax-sub_covidhospital_TRUE-vte
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_FALSE-ate
+    - stata_cox_ipw-cohort_vax-sub_covidhospital_FALSE-pe
+    - stata_cox_ipw-cohort_prevax-sub_covidhospital_TRUE-pe
+    - stata_cox_ipw-cohort_prevax-sub_covidhospital_TRUE-vte
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-angina
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-dvt
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-hf
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-vte
+    - stata_cox_ipw-cohort_vax-sub_covidhospital_TRUE-pe
+    - stata_cox_ipw-cohort_vax-sub_covidhospital_TRUE-vte
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_covidhospital.csv
@@ -4694,7 +4694,6 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_black-ate
     - cox_ipw-cohort_prevax-sub_ethnicity_black-vte
     - cox_ipw-cohort_unvax-sub_ethnicity_black-ate
-    - cox_ipw-cohort_unvax-sub_ethnicity_black-vte
     - cox_ipw-cohort_vax-sub_ethnicity_black-ate
     - cox_ipw-cohort_vax-sub_ethnicity_black-vte
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-ate
@@ -4715,6 +4714,7 @@ actions:
     - cox_ipw-cohort_unvax-sub_ethnicity_white-vte
     - cox_ipw-cohort_vax-sub_ethnicity_white-ate
     - cox_ipw-cohort_vax-sub_ethnicity_white-vte
+    - stata_cox_ipw-cohort_unvax-sub_ethnicity_black-vte
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_ethnicity.csv
@@ -4814,9 +4814,9 @@ actions:
     - cox_ipw-cohort_prevax-sub_age_80_110-ate
     - cox_ipw-cohort_prevax-sub_age_80_110-vte
     - cox_ipw-cohort_unvax-sub_age_80_110-ate
-    - cox_ipw-cohort_unvax-sub_age_80_110-vte
     - cox_ipw-cohort_vax-sub_age_80_110-ate
     - cox_ipw-cohort_vax-sub_age_80_110-vte
+    - stata_cox_ipw-cohort_unvax-sub_age_80_110-vte
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_age_80_110.csv
@@ -4846,9 +4846,9 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_black-ate
     - cox_ipw-cohort_prevax-sub_ethnicity_black-vte
     - cox_ipw-cohort_unvax-sub_ethnicity_black-ate
-    - cox_ipw-cohort_unvax-sub_ethnicity_black-vte
     - cox_ipw-cohort_vax-sub_ethnicity_black-ate
     - cox_ipw-cohort_vax-sub_ethnicity_black-vte
+    - stata_cox_ipw-cohort_unvax-sub_ethnicity_black-vte
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_ethnicity_black.csv
