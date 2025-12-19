@@ -3,14 +3,32 @@ make_HR_plot <- function(
   analysis_groups = c("main"),
   main_hosp = TRUE,
   hr_low = 0.5,
-  hr_high = 128,
+  hr_high = 96,
   facet_rows = 2,
   facet_cols = 3,
+  alpha = 0.5,
   legend_vertical = FALSE
 ) {
   # Load model output ----
 
   df <- data.table::fread("output/post_release/model_output.csv")
+
+  # Exclude Stata models ----
+
+  stata_models <- c(
+    "cohort_unvax-main-pe",
+    "cohort_vax-sub_covidhistory-ate",
+    "cohort_prevax-sub_covidhospital_TRUE-pe",
+    "cohort_prevax-sub_covidhospital_TRUE-vte",
+    "cohort_unvax-sub_covidhospital_FALSE-ate",
+    "cohort_unvax-sub_covidhospital_TRUE-dvt",
+    "cohort_unvax-sub_covidhospital_TRUE-vte",
+    "cohort_vax-sub_covidhospital_FALSE-pe",
+    "cohort_vax-sub_covidhospital_TRUE-pe",
+    "cohort_vax-sub_covidhospital_TRUE-vte"
+  )
+
+  df <- df[!(df$name %in% stata_models), ]
 
   # Load plot labels ----
 
@@ -103,7 +121,7 @@ make_HR_plot <- function(
 
   # Calculate maximum value for x axis
 
-  max_time <- max(df$outcome_time_median)
+  max_time <- 365 * (ceiling((max(df$outcome_time_median) / 365) * 2) / 2)
 
   # Make base plot ----
 
@@ -115,12 +133,20 @@ make_HR_plot <- function(
       mapping = ggplot2::aes(yintercept = 1),
       colour = "#A9A9A9"
     ) +
-    ggplot2::geom_point(position = ggplot2::position_dodge(width = 0)) +
+    ggplot2::geom_point(
+      position = ggplot2::position_dodge(width = 0),
+      alpha = alpha
+    ) +
     ggplot2::geom_errorbar(
       mapping = ggplot2::aes(ymin = conf_low, ymax = conf_high, width = 0),
-      position = ggplot2::position_dodge(width = 0)
+      position = ggplot2::position_dodge(width = 0),
+      alpha = alpha
     ) +
-    ggplot2::geom_line(position = ggplot2::position_dodge(width = 0)) +
+    ggplot2::geom_line(
+      ggplot2::aes(group = cohort),
+      position = ggplot2::position_dodge(width = 0),
+      alpha = alpha
+    ) +
     ggplot2::scale_y_continuous(
       lim = c(hr_low, hr_high),
       breaks = 2^seq(-100, 100),
@@ -128,7 +154,8 @@ make_HR_plot <- function(
     ) +
     ggplot2::scale_x_continuous(
       breaks = seq(0, max_time, (365 / 2)),
-      labels = seq(0, max_time, (365 / 2)) / 365
+      labels = seq(0, max_time, (365 / 2)) / 365,
+      lim = c(0, max_time)
     ) +
     ggplot2::scale_color_manual(
       breaks = c("prevax", "vax", "unvax"),

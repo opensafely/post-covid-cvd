@@ -84,21 +84,21 @@ plot_info[nrow(plot_info) + 1, ] <- c(
 )
 plot_info[nrow(plot_info) + 1, ] <- c(
   "sub_ate",
-  "ate;vte",
+  "ate",
   "ate",
   2,
   2,
-  210,
+  110,
   210,
   TRUE
 )
 plot_info[nrow(plot_info) + 1, ] <- c(
   "sub_vte",
-  "ate;vte",
+  "vte",
   "vte",
   2,
   2,
-  210,
+  110,
   210,
   TRUE
 )
@@ -127,9 +127,10 @@ for (i in 1:nrow(plot_info)) {
     analysis_groups = plot_info[i, "analysis"],
     main_hosp = TRUE, # Set to false if you want the main analyses without COVID-19 severity incorporated
     hr_low = 0.5,
-    hr_high = 128,
+    hr_high = 96,
     facet_rows = plot_info[i, "facet_rows"],
     facet_cols = plot_info[i, "facet_cols"],
+    alpha = 0.5,
     legend_vertical = plot_info[i, "legend_vertical"]
   )
 
