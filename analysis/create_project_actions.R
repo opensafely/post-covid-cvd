@@ -58,15 +58,20 @@ excluded_models <- c()
 
 stata_models <- c(
   "cohort_unvax-main-pe",
+  "cohort_vax-main-pe",
+  "cohort_unvax-sub_age_80_110-vte",
   "cohort_vax-sub_covidhistory-ate",
   "cohort_prevax-sub_covidhospital_TRUE-pe",
   "cohort_prevax-sub_covidhospital_TRUE-vte",
   "cohort_unvax-sub_covidhospital_FALSE-ate",
+  "cohort_unvax-sub_covidhospital_TRUE-angina",
   "cohort_unvax-sub_covidhospital_TRUE-dvt",
+  "cohort_unvax-sub_covidhospital_TRUE-hf",
   "cohort_unvax-sub_covidhospital_TRUE-vte",
   "cohort_vax-sub_covidhospital_FALSE-pe",
   "cohort_vax-sub_covidhospital_TRUE-pe",
-  "cohort_vax-sub_covidhospital_TRUE-vte"
+  "cohort_vax-sub_covidhospital_TRUE-vte",
+  "cohort_unvax-sub_ethnicity_black-vte"
 )
 
 stata <- active_analyses[active_analyses$name %in% stata_models, ]
