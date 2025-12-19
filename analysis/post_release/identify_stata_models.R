@@ -1,4 +1,5 @@
-stata_threshold <- 48
+stata_threshold_lower <- 2^-3
+stata_threshold_upper <- 2^5.5
 
 # Load model output ----
 
@@ -13,4 +14,6 @@ df <- df[
 
 # Idenitfy models to run in Stata ----
 
-run_stata <- unique(df[df$hr > stata_threshold, ]$name)
+run_stata <- unique(
+  df[(df$hr > stata_threshold_upper) | (df$hr < stata_threshold_lower), ]$name
+)
