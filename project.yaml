@@ -3961,6 +3961,366 @@ actions:
       moderately_sensitive:
         model_output: output/model/model_output-cohort_vax-sub_vte_TRUE-vte.csv
 
+  ready-cohort_unvax-main-pe:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_unvax-main-pe.rds --ipw=TRUE
+      --exposure=exp_date --outcome=out_date --strata=strat_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_unvax-main-pe.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_unvax-main-pe.csv
+    needs:
+    - make_model_input-cohort_unvax-main-pe
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_unvax-main-pe.dta
+
+  stata_cox_ipw-cohort_unvax-main-pe:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_unvax-main-pe 1;28;183;365;730;1095;1460
+      2021-06-01
+    needs:
+    - ready-cohort_unvax-main-pe
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_unvax-main-pe.csv
+
+  ready-cohort_vax-main-pe:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_vax-main-pe.rds --ipw=TRUE
+      --exposure=exp_date --outcome=out_date --strata=strat_cat_region --covariate_sex=cov_cat_sex
+      --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_vax-main-pe.dta --run_analysis=FALSE
+      --df_output=model/model_output-cohort_vax-main-pe.csv
+    needs:
+    - make_model_input-cohort_vax-main-pe
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_vax-main-pe.dta
+
+  stata_cox_ipw-cohort_vax-main-pe:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_vax-main-pe 1;28;183;365;730;1095;1460
+      2021-06-01
+    needs:
+    - ready-cohort_vax-main-pe
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_vax-main-pe.csv
+
+  ready-cohort_unvax-sub_age_80_110-vte:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_unvax-sub_age_80_110-vte.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=FALSE --save_analysis_ready=model/ready-cohort_unvax-sub_age_80_110-vte.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_unvax-sub_age_80_110-vte.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_age_80_110-vte
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_unvax-sub_age_80_110-vte.dta
+
+  stata_cox_ipw-cohort_unvax-sub_age_80_110-vte:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_unvax-sub_age_80_110-vte
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_unvax-sub_age_80_110-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_unvax-sub_age_80_110-vte.csv
+
+  ready-cohort_vax-sub_covidhistory-ate:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_vax-sub_covidhistory-ate.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_vax-sub_covidhistory-ate.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_vax-sub_covidhistory-ate.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covidhistory-ate
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_vax-sub_covidhistory-ate.dta
+
+  stata_cox_ipw-cohort_vax-sub_covidhistory-ate:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_vax-sub_covidhistory-ate
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_vax-sub_covidhistory-ate
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_vax-sub_covidhistory-ate.csv
+
+  ready-cohort_unvax-sub_covidhospital_FALSE-ate:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_unvax-sub_covidhospital_FALSE-ate.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_unvax-sub_covidhospital_FALSE-ate.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_unvax-sub_covidhospital_FALSE-ate.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covidhospital_FALSE-ate
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_unvax-sub_covidhospital_FALSE-ate.dta
+
+  stata_cox_ipw-cohort_unvax-sub_covidhospital_FALSE-ate:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_unvax-sub_covidhospital_FALSE-ate
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_unvax-sub_covidhospital_FALSE-ate
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_unvax-sub_covidhospital_FALSE-ate.csv
+
+  ready-cohort_vax-sub_covidhospital_FALSE-pe:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_vax-sub_covidhospital_FALSE-pe.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_vax-sub_covidhospital_FALSE-pe.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_vax-sub_covidhospital_FALSE-pe.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covidhospital_FALSE-pe
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_vax-sub_covidhospital_FALSE-pe.dta
+
+  stata_cox_ipw-cohort_vax-sub_covidhospital_FALSE-pe:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_vax-sub_covidhospital_FALSE-pe
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_vax-sub_covidhospital_FALSE-pe
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_vax-sub_covidhospital_FALSE-pe.csv
+
+  ready-cohort_prevax-sub_covidhospital_TRUE-pe:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_prevax-sub_covidhospital_TRUE-pe.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460;1979 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_prevax-sub_covidhospital_TRUE-pe.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_prevax-sub_covidhospital_TRUE-pe.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covidhospital_TRUE-pe
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_prevax-sub_covidhospital_TRUE-pe.dta
+
+  stata_cox_ipw-cohort_prevax-sub_covidhospital_TRUE-pe:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_prevax-sub_covidhospital_TRUE-pe
+      1;28;183;365;730;1095;1460;1979 2020-01-01
+    needs:
+    - ready-cohort_prevax-sub_covidhospital_TRUE-pe
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_prevax-sub_covidhospital_TRUE-pe.csv
+
+  ready-cohort_prevax-sub_covidhospital_TRUE-vte:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_prevax-sub_covidhospital_TRUE-vte.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2020-01-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460;1979 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_prevax-sub_covidhospital_TRUE-vte.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_prevax-sub_covidhospital_TRUE-vte.csv
+    needs:
+    - make_model_input-cohort_prevax-sub_covidhospital_TRUE-vte
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_prevax-sub_covidhospital_TRUE-vte.dta
+
+  stata_cox_ipw-cohort_prevax-sub_covidhospital_TRUE-vte:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_prevax-sub_covidhospital_TRUE-vte
+      1;28;183;365;730;1095;1460;1979 2020-01-01
+    needs:
+    - ready-cohort_prevax-sub_covidhospital_TRUE-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_prevax-sub_covidhospital_TRUE-vte.csv
+
+  ready-cohort_unvax-sub_covidhospital_TRUE-angina:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_unvax-sub_covidhospital_TRUE-angina.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_unvax-sub_covidhospital_TRUE-angina.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_unvax-sub_covidhospital_TRUE-angina.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covidhospital_TRUE-angina
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_unvax-sub_covidhospital_TRUE-angina.dta
+
+  stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-angina:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_unvax-sub_covidhospital_TRUE-angina
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_unvax-sub_covidhospital_TRUE-angina
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_unvax-sub_covidhospital_TRUE-angina.csv
+
+  ready-cohort_unvax-sub_covidhospital_TRUE-dvt:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_unvax-sub_covidhospital_TRUE-dvt.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_unvax-sub_covidhospital_TRUE-dvt.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_unvax-sub_covidhospital_TRUE-dvt.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covidhospital_TRUE-dvt
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_unvax-sub_covidhospital_TRUE-dvt.dta
+
+  stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-dvt:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_unvax-sub_covidhospital_TRUE-dvt
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_unvax-sub_covidhospital_TRUE-dvt
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_unvax-sub_covidhospital_TRUE-dvt.csv
+
+  ready-cohort_unvax-sub_covidhospital_TRUE-hf:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_unvax-sub_covidhospital_TRUE-hf.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_unvax-sub_covidhospital_TRUE-hf.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_unvax-sub_covidhospital_TRUE-hf.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covidhospital_TRUE-hf
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_unvax-sub_covidhospital_TRUE-hf.dta
+
+  stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-hf:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_unvax-sub_covidhospital_TRUE-hf
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_unvax-sub_covidhospital_TRUE-hf
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_unvax-sub_covidhospital_TRUE-hf.csv
+
+  ready-cohort_unvax-sub_covidhospital_TRUE-vte:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_unvax-sub_covidhospital_TRUE-vte.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_unvax-sub_covidhospital_TRUE-vte.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_unvax-sub_covidhospital_TRUE-vte.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_covidhospital_TRUE-vte
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_unvax-sub_covidhospital_TRUE-vte.dta
+
+  stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-vte:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_unvax-sub_covidhospital_TRUE-vte
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_unvax-sub_covidhospital_TRUE-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_unvax-sub_covidhospital_TRUE-vte.csv
+
+  ready-cohort_vax-sub_covidhospital_TRUE-pe:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_vax-sub_covidhospital_TRUE-pe.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_vax-sub_covidhospital_TRUE-pe.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_vax-sub_covidhospital_TRUE-pe.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covidhospital_TRUE-pe
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_vax-sub_covidhospital_TRUE-pe.dta
+
+  stata_cox_ipw-cohort_vax-sub_covidhospital_TRUE-pe:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_vax-sub_covidhospital_TRUE-pe
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_vax-sub_covidhospital_TRUE-pe
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_vax-sub_covidhospital_TRUE-pe.csv
+
+  ready-cohort_vax-sub_covidhospital_TRUE-vte:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_vax-sub_covidhospital_TRUE-vte.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_vax-sub_covidhospital_TRUE-vte.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_vax-sub_covidhospital_TRUE-vte.csv
+    needs:
+    - make_model_input-cohort_vax-sub_covidhospital_TRUE-vte
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_vax-sub_covidhospital_TRUE-vte.dta
+
+  stata_cox_ipw-cohort_vax-sub_covidhospital_TRUE-vte:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_vax-sub_covidhospital_TRUE-vte
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_vax-sub_covidhospital_TRUE-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_vax-sub_covidhospital_TRUE-vte.csv
+
+  ready-cohort_unvax-sub_ethnicity_black-vte:
+    run: cox-ipw:v0.0.37 --df_input=model/model_input-cohort_unvax-sub_ethnicity_black-vte.rds
+      --ipw=TRUE --exposure=exp_date --outcome=out_date --strata=strat_cat_region
+      --covariate_sex=cov_cat_sex --covariate_age=cov_num_age --covariate_other=cov_cat_ethnicity;cov_cat_imd;cov_num_consrate2019;cov_bin_hcworker;cov_cat_smoking;cov_bin_carehome;cov_bin_obesity;cov_bin_ami;cov_bin_dementia;cov_bin_liver_disease;cov_bin_ckd;cov_bin_cancer;cov_bin_hypertension;cov_bin_diabetes;cov_bin_depression;cov_bin_copd;cov_bin_stroke_all;cov_bin_other_ae;cov_bin_vte;cov_bin_hf;cov_bin_angina;cov_bin_lipidmed;cov_bin_antiplatelet;cov_bin_anticoagulant;cov_bin_cocp;cov_bin_hrt
+      --cox_start=index_date --cox_stop=end_date_outcome --study_start=2021-06-01
+      --study_stop=2025-05-31 --cut_points=1;28;183;365;730;1095;1460 --controls_per_case=20
+      --total_event_threshold=50 --episode_event_threshold=5 --covariate_threshold=5
+      --age_spline=TRUE --save_analysis_ready=model/ready-cohort_unvax-sub_ethnicity_black-vte.dta
+      --run_analysis=FALSE --df_output=model/model_output-cohort_unvax-sub_ethnicity_black-vte.csv
+    needs:
+    - make_model_input-cohort_unvax-sub_ethnicity_black-vte
+    outputs:
+      highly_sensitive:
+        ready: output/model/ready-cohort_unvax-sub_ethnicity_black-vte.dta
+
+  stata_cox_ipw-cohort_unvax-sub_ethnicity_black-vte:
+    run: stata-mp:latest analysis/model/cox_model.do cohort_unvax-sub_ethnicity_black-vte
+      1;28;183;365;730;1095;1460 2021-06-01
+    needs:
+    - ready-cohort_unvax-sub_ethnicity_black-vte
+    outputs:
+      moderately_sensitive:
+        model_output: output/model/stata_model_output-cohort_unvax-sub_ethnicity_black-vte.csv
+
   ## Generate make-flow-output 
 
   make-flow-output:
@@ -4200,7 +4560,6 @@ actions:
     - cox_ipw-cohort_unvax-main-ate
     - cox_ipw-cohort_unvax-main-dvt
     - cox_ipw-cohort_unvax-main-hf
-    - cox_ipw-cohort_unvax-main-pe
     - cox_ipw-cohort_unvax-main-stroke_isch
     - cox_ipw-cohort_unvax-main-stroke_sahhs
     - cox_ipw-cohort_unvax-main-tia
@@ -4210,11 +4569,12 @@ actions:
     - cox_ipw-cohort_vax-main-ate
     - cox_ipw-cohort_vax-main-dvt
     - cox_ipw-cohort_vax-main-hf
-    - cox_ipw-cohort_vax-main-pe
     - cox_ipw-cohort_vax-main-stroke_isch
     - cox_ipw-cohort_vax-main-stroke_sahhs
     - cox_ipw-cohort_vax-main-tia
     - cox_ipw-cohort_vax-main-vte
+    - stata_cox_ipw-cohort_unvax-main-pe
+    - stata_cox_ipw-cohort_vax-main-pe
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-main.csv
@@ -4243,8 +4603,8 @@ actions:
     needs:
     - cox_ipw-cohort_unvax-sub_covidhistory-ate
     - cox_ipw-cohort_unvax-sub_covidhistory-vte
-    - cox_ipw-cohort_vax-sub_covidhistory-ate
     - cox_ipw-cohort_vax-sub_covidhistory-vte
+    - stata_cox_ipw-cohort_vax-sub_covidhistory-ate
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_covidhistory.csv
@@ -4267,7 +4627,6 @@ actions:
     - cox_ipw-cohort_prevax-sub_covidhospital_FALSE-vte
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-ami
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-angina
-    - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-ate
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-dvt
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-hf
     - cox_ipw-cohort_unvax-sub_covidhospital_FALSE-pe
@@ -4280,7 +4639,6 @@ actions:
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-ate
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-dvt
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-hf
-    - cox_ipw-cohort_vax-sub_covidhospital_FALSE-pe
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-stroke_isch
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-stroke_sahhs
     - cox_ipw-cohort_vax-sub_covidhospital_FALSE-tia
@@ -4290,31 +4648,33 @@ actions:
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-ate
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-dvt
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-hf
-    - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-pe
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-stroke_isch
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-stroke_sahhs
     - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-tia
-    - cox_ipw-cohort_prevax-sub_covidhospital_TRUE-vte
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-ami
-    - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-angina
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-ate
-    - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-dvt
-    - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-hf
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-pe
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-stroke_isch
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-stroke_sahhs
     - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-tia
-    - cox_ipw-cohort_unvax-sub_covidhospital_TRUE-vte
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-ami
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-angina
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-ate
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-dvt
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-hf
-    - cox_ipw-cohort_vax-sub_covidhospital_TRUE-pe
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-stroke_isch
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-stroke_sahhs
     - cox_ipw-cohort_vax-sub_covidhospital_TRUE-tia
-    - cox_ipw-cohort_vax-sub_covidhospital_TRUE-vte
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_FALSE-ate
+    - stata_cox_ipw-cohort_vax-sub_covidhospital_FALSE-pe
+    - stata_cox_ipw-cohort_prevax-sub_covidhospital_TRUE-pe
+    - stata_cox_ipw-cohort_prevax-sub_covidhospital_TRUE-vte
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-angina
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-dvt
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-hf
+    - stata_cox_ipw-cohort_unvax-sub_covidhospital_TRUE-vte
+    - stata_cox_ipw-cohort_vax-sub_covidhospital_TRUE-pe
+    - stata_cox_ipw-cohort_vax-sub_covidhospital_TRUE-vte
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_covidhospital.csv
@@ -4334,7 +4694,6 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_black-ate
     - cox_ipw-cohort_prevax-sub_ethnicity_black-vte
     - cox_ipw-cohort_unvax-sub_ethnicity_black-ate
-    - cox_ipw-cohort_unvax-sub_ethnicity_black-vte
     - cox_ipw-cohort_vax-sub_ethnicity_black-ate
     - cox_ipw-cohort_vax-sub_ethnicity_black-vte
     - cox_ipw-cohort_prevax-sub_ethnicity_mixed-ate
@@ -4355,6 +4714,7 @@ actions:
     - cox_ipw-cohort_unvax-sub_ethnicity_white-vte
     - cox_ipw-cohort_vax-sub_ethnicity_white-ate
     - cox_ipw-cohort_vax-sub_ethnicity_white-vte
+    - stata_cox_ipw-cohort_unvax-sub_ethnicity_black-vte
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_ethnicity.csv
@@ -4454,9 +4814,9 @@ actions:
     - cox_ipw-cohort_prevax-sub_age_80_110-ate
     - cox_ipw-cohort_prevax-sub_age_80_110-vte
     - cox_ipw-cohort_unvax-sub_age_80_110-ate
-    - cox_ipw-cohort_unvax-sub_age_80_110-vte
     - cox_ipw-cohort_vax-sub_age_80_110-ate
     - cox_ipw-cohort_vax-sub_age_80_110-vte
+    - stata_cox_ipw-cohort_unvax-sub_age_80_110-vte
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_age_80_110.csv
@@ -4486,9 +4846,9 @@ actions:
     - cox_ipw-cohort_prevax-sub_ethnicity_black-ate
     - cox_ipw-cohort_prevax-sub_ethnicity_black-vte
     - cox_ipw-cohort_unvax-sub_ethnicity_black-ate
-    - cox_ipw-cohort_unvax-sub_ethnicity_black-vte
     - cox_ipw-cohort_vax-sub_ethnicity_black-ate
     - cox_ipw-cohort_vax-sub_ethnicity_black-vte
+    - stata_cox_ipw-cohort_unvax-sub_ethnicity_black-vte
     outputs:
       moderately_sensitive:
         model_output: output/make_output/model_output-sub_ethnicity_black.csv
