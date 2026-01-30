@@ -73,7 +73,6 @@ stata_models <- c(
   "cohort_vax-sub_covidhospital_TRUE-vte",
   "cohort_unvax-sub_covidhospital_TRUE-pe",
   "cohort_unvax-sub_age_80_110-ate",
-  "cohort_unvax-sub_covidhistory-ate",
   "cohort_unvax-sub_covidhistory-vte",
   "cohort_unvax-sub_ethnicity_asian-ate",
   "cohort_unvax-sub_ethnicity_asian-vte",
@@ -595,7 +594,7 @@ actions_list <- splice(
     unlist(
       lapply(
         1:nrow(active_analyses),
-        function(x)
+        function(x) {
           apply_model_function(
             name = active_analyses$name[x],
             cohort = active_analyses$cohort[x],
@@ -618,6 +617,7 @@ actions_list <- splice(
             covariate_threshold = active_analyses$covariate_threshold[x],
             age_spline = active_analyses$age_spline[x]
           )
+        }
       ),
       recursive = FALSE
     )
