@@ -27,7 +27,7 @@ analyses <- unique(grep("^main", active_analyses$analysis, value = TRUE))
 subgroups <- c(
   setdiff(
     unique(str_extract(active_analyses$analysis, "^main|sub_[^_]+")),
-    c("sub_age", "sub_ethncity")
+    c("sub_age", "sub_ethnicity")
   ),
   unique(active_analyses[grepl("_age_", active_analyses$analysis), ]$analysis),
   unique(

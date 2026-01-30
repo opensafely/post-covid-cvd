@@ -5040,46 +5040,6 @@ actions:
         model_output: output/make_output/model_output-sub_covidhospital.csv
         model_output_midpoint6: output/make_output/model_output-sub_covidhospital-midpoint6.csv
 
-  ## Generate model_output-sub_ethnicity 
-
-  make_model_output-sub_ethnicity:
-    run: r:v2 analysis/make_output/make_model_output.R sub_ethnicity
-    needs:
-    - cox_ipw-cohort_prevax-sub_ethnicity_asian-ate
-    - cox_ipw-cohort_prevax-sub_ethnicity_asian-vte
-    - cox_ipw-cohort_vax-sub_ethnicity_asian-ate
-    - cox_ipw-cohort_vax-sub_ethnicity_asian-vte
-    - cox_ipw-cohort_prevax-sub_ethnicity_black-ate
-    - cox_ipw-cohort_prevax-sub_ethnicity_mixed-ate
-    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-ate
-    - cox_ipw-cohort_unvax-sub_ethnicity_mixed-vte
-    - cox_ipw-cohort_prevax-sub_ethnicity_other-ate
-    - cox_ipw-cohort_unvax-sub_ethnicity_other-ate
-    - cox_ipw-cohort_unvax-sub_ethnicity_other-vte
-    - cox_ipw-cohort_vax-sub_ethnicity_other-vte
-    - cox_ipw-cohort_prevax-sub_ethnicity_white-ate
-    - cox_ipw-cohort_prevax-sub_ethnicity_white-vte
-    - cox_ipw-cohort_unvax-sub_ethnicity_white-ate
-    - cox_ipw-cohort_unvax-sub_ethnicity_white-vte
-    - cox_ipw-cohort_vax-sub_ethnicity_white-ate
-    - cox_ipw-cohort_vax-sub_ethnicity_white-vte
-    - stata_cox_ipw-cohort_unvax-sub_ethnicity_asian-ate
-    - stata_cox_ipw-cohort_unvax-sub_ethnicity_asian-vte
-    - stata_cox_ipw-cohort_prevax-sub_ethnicity_black-vte
-    - stata_cox_ipw-cohort_unvax-sub_ethnicity_black-ate
-    - stata_cox_ipw-cohort_unvax-sub_ethnicity_black-vte
-    - stata_cox_ipw-cohort_vax-sub_ethnicity_black-ate
-    - stata_cox_ipw-cohort_vax-sub_ethnicity_black-vte
-    - stata_cox_ipw-cohort_prevax-sub_ethnicity_mixed-vte
-    - stata_cox_ipw-cohort_vax-sub_ethnicity_mixed-ate
-    - stata_cox_ipw-cohort_vax-sub_ethnicity_mixed-vte
-    - stata_cox_ipw-cohort_prevax-sub_ethnicity_other-vte
-    - stata_cox_ipw-cohort_vax-sub_ethnicity_other-ate
-    outputs:
-      moderately_sensitive:
-        model_output: output/make_output/model_output-sub_ethnicity.csv
-        model_output_midpoint6: output/make_output/model_output-sub_ethnicity-midpoint6.csv
-
   ## Generate model_output-sub_sex 
 
   make_model_output-sub_sex:
