@@ -71,7 +71,22 @@ stata_models <- c(
   "cohort_vax-sub_covidhospital_FALSE-pe",
   "cohort_vax-sub_covidhospital_TRUE-pe",
   "cohort_vax-sub_covidhospital_TRUE-vte",
-  "cohort_unvax-sub_ethnicity_black-vte"
+  "cohort_unvax-sub_covidhospital_TRUE-pe",
+  "cohort_unvax-sub_age_80_110-ate",
+  "cohort_unvax-sub_covidhistory-ate",
+  "cohort_unvax-sub_covidhistory-vte",
+  "cohort_unvax-sub_ethnicity_asian-ate",
+  "cohort_unvax-sub_ethnicity_asian-vte",
+  "cohort_unvax-sub_ethnicity_black-ate",
+  "cohort_unvax-sub_ethnicity_black-vte",
+  "cohort_vax-sub_ethnicity_black-ate",
+  "cohort_vax-sub_ethnicity_black-vte",
+  "cohort_prevax-sub_ethnicity_black-vte",
+  "cohort_vax-sub_ethnicity_mixed-ate",
+  "cohort_vax-sub_ethnicity_other-ate",
+  "cohort_prevax-sub_ethnicity_other-vte",
+  "cohort_prevax-sub_ethnicity_mixed-vte",
+  "cohort_vax-sub_ethnicity_mixed-vte"
 )
 
 stata <- active_analyses[active_analyses$name %in% stata_models, ]
