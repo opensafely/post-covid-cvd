@@ -39,10 +39,23 @@ inex <- function(
 
   input <- subset(
     input,
-    cov_cat_imd %in% c("1 (most deprived)", "2", "3", "4", "5 (least deprived)")
+    cov_cat_imd %in%
+      c(
+        "1 (most deprived)",
+        "2",
+        "3",
+        "4",
+        "5 (least deprived)",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10 (least deprived)"
+      )
   )
   flow[nrow(flow) + 1, ] <- c(
-    "Inclusion criteria: Known IMD at index",
+    "Inclusion criteria: Known IMD at index", # code currently only handles quintiles or deciles
     nrow(input)
   )
   print(flow[nrow(flow), ])
