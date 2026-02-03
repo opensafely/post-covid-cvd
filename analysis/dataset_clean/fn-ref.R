@@ -18,21 +18,18 @@ ref <- function(input) {
   print('Handle missing values in cov_cat_imd')
 
   if ("cov_cat_imd" %in% names(input)) {
+    imd_max <- max(
+      as.integer(sub(" .*", "", unique(input$cov_cat_imd))),
+      na.rm = TRUE
+    )
+    imd_levels <- c(
+      "1 (most deprived)",
+      as.character(seq(2, imd_max)),
+      sprintf("%i (least deprived)", imd_max)
+    )
     input$cov_cat_imd <- if_else(
       input$cov_cat_imd %in%
-        c(
-          "1 (most deprived)",
-          "2",
-          "3",
-          "4",
-          "5 (least deprived)",
-          "5",
-          "6",
-          "7",
-          "8",
-          "9",
-          "10 (least deprived)"
-        ),
+        imd_levels,
       input$cov_cat_imd,
       "missing"
     )
@@ -133,35 +130,19 @@ ref <- function(input) {
 
   if ("cov_cat_imd" %in% names(input)) {
     print('Set reference level for variable: cov_cat_imd')
-    imd_levels <- length(unique(input$cov_cat_imd))
-    if (imd_levels == 5) {
-      input$cov_cat_imd <- ordered(
-        input$cov_cat_imd,
-        levels = c("1 (most deprived)", "2", "3", "4", "5 (least deprived)")
-      )
-    } else if (imd_levels == 10) {
-      input$cov_cat_imd <- ordered(
-        input$cov_cat_imd,
-        levels = c(
-          "1 (most deprived)",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-          "8",
-          "9",
-          "10 (least deprived)"
-        )
-      )
-    } else {
-      stop(paste0(
-        "Reference levels not specified for ",
-        imd_levels,
-        "levels of IMD!"
-      ))
-    }
+    imd_max <- max(
+      as.integer(sub(" .*", "", unique(input$cov_cat_imd))),
+      na.rm = TRUE
+    )
+    imd_levels <- c(
+      "1 (most deprived)",
+      as.character(seq(2, imd_max)),
+      sprintf("%i (least deprived)", imd_max)
+    )
+    input$cov_cat_imd <- ordered(
+      input$cov_cat_imd,
+      levels = imd_levels
+    )
   }
 
   # Set reference level for variable: strat_cat_region -------------------------
