@@ -242,10 +242,10 @@ hhld_imdef_primis = codelist_from_csv(
 #### No codelist required
 
 ### Ethnicity  
-opensafely_ethnicity_codes_6 = codelist_from_csv(
-    "codelists/opensafely-ethnicity.csv",
-    column="Code",
-    category_column="Grouping_6"
+ethnicity_snomed = codelist_from_csv(
+  "codelists/opensafely-ethnicity-snomed-0removed.csv",
+  column = "code",
+  category_column = "Grouping_6"
 )
 
 ### Deprivation 

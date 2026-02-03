@@ -31,8 +31,9 @@ from variable_helper_functions import (
     last_matching_event_clinical_snomed_before,
     last_matching_med_dmd_before,
     last_matching_event_apc_before,
-    matching_death_before,
     filter_codes_by_category,
+    get_latest_ethnicity,
+    get_imd
 )
 
 # Define generate variables function
@@ -367,25 +368,10 @@ def generate_variables(index_date, end_date_exp, end_date_out):
     cov_cat_sex = patients.sex
 
     ### Ethnicity
-    cov_cat_ethnicity = (
-        clinical_events.where(
-            clinical_events.ctv3_code.is_in(opensafely_ethnicity_codes_6)
-        )
-        .sort_by(clinical_events.date)
-        .last_for_patient()
-        .ctv3_code.to_category(opensafely_ethnicity_codes_6)
-    )
+    cov_cat_ethnicity = get_latest_ethnicity(index_date,ethnicity_snomed, grouping=6)
 
     ### Deprivation
-    cov_cat_imd = case(
-        when((addresses.for_patient_on(index_date).imd_rounded >= 0) & 
-                (addresses.for_patient_on(index_date).imd_rounded < int(32844 * 1 / 5))).then("1 (most deprived)"),
-        when(addresses.for_patient_on(index_date).imd_rounded < int(32844 * 2 / 5)).then("2"),
-        when(addresses.for_patient_on(index_date).imd_rounded < int(32844 * 3 / 5)).then("3"),
-        when(addresses.for_patient_on(index_date).imd_rounded < int(32844 * 4 / 5)).then("4"),
-        when(addresses.for_patient_on(index_date).imd_rounded < int(32844 * 5 / 5)).then("5 (least deprived)"),
-        otherwise="unknown",
-    )
+    cov_cat_imd = get_imd(index_date, groups=10, max_imd=32844)
 
     ### Smoking status
     tmp_most_recent_smoking_cat = (
